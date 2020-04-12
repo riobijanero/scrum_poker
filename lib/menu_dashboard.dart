@@ -17,7 +17,7 @@ class MenuDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: backgroundColor,
+      // backgroundColor: backgroundColor,
       body: Stack(
         children: <Widget>[Menu(), Dashboard()],
       ),
@@ -78,22 +78,22 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         child: ScaleTransition(
           scale: _menuScaleAnimation,
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            // backgroundColor: Colors.transparent,
             body: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Dashboard ', style: TextStyle(color: Colors.white, fontSize: menuFontSize)),
+                  Text('Dashboard ', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
                   SizedBox(height: 10),
-                  Text('Fibonacci', style: TextStyle(color: Colors.white, fontSize: menuFontSize)),
+                  Text('Fibonacci', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
                   SizedBox(height: 10),
-                  Text('T-Shirt Size', style: TextStyle(color: Colors.white, fontSize: menuFontSize)),
+                  Text('T-Shirt Size', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
                   SizedBox(height: 10),
-                  Text('Other', style: TextStyle(color: Colors.white, fontSize: menuFontSize)),
+                  Text('Other', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
                   SizedBox(height: 10),
-                  Text('Fibonacci', style: TextStyle(color: Colors.white, fontSize: menuFontSize)),
+                  Text('Fibonacci', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
                 ],
               ),
             ),
@@ -165,10 +165,15 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                   )
                 : Material(
                     key: ValueKey<String>('mainpage'),
-                    animationDuration: dashboardDuration,
-                    borderRadius: borderRadius,
-                    elevation: 8,
-                    color: backgroundColor,
+                    // animationDuration: dashboardDuration,
+                    // borderRadius: borderRadius,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      side: BorderSide(/*color: Colors.grey,*/ width: 0.3),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    elevation: 10,
+                    // color: backgroundColor,
                     child: OrientationBuilder(
                       builder: (context, orientation) {
                         return GestureDetector(
@@ -180,11 +185,11 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                             resizeToAvoidBottomInset: true,
                             appBar: AppBar(
                               elevation: 0.0,
-                              backgroundColor: Colors.transparent,
+                              // backgroundColor: Colors.transparent,
                               leading: IconButton(
                                 icon: AnimatedIcon(
                                     icon: AnimatedIcons.menu_arrow,
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                     progress: _animationController),
                                 onPressed: () {
                                   if (_cardsStore.isMenuCollapsed) {
@@ -197,10 +202,9 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                               ),
                               title: Text(
                                 'Cards',
-                                style: TextStyle(fontSize: 24, color: Colors.white),
                               ),
                             ),
-                            backgroundColor: backgroundColor,
+                            // backgroundColor: backgroundColor,
                             body: SafeArea(
                               child: AbsorbPointer(
                                 absorbing: _cardsStore.isMenuCollapsed ? false : true,
