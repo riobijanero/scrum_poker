@@ -6,7 +6,7 @@ class AppTheme {
   static Color _iconColor = Colors.blueAccent.shade200;
 
   static const Color _lightPrimaryColor = Colors.white;
-  static const Color _lightPrimaryVariantColor = Color(0XFFE1E1E1); // Scaffold background
+  static const Color _lightPrimaryVariantColor = Color(0XFFFAFAFA); // Scaffold background
   static const Color _lightSecondaryColor = Colors.green;
   static const Color _lightOnPrimaryColor = Colors.black;
 
