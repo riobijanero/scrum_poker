@@ -16,16 +16,14 @@ class UiCard extends StatelessWidget {
         width: 350,
         child: Card(
           shape: RoundedRectangleBorder(
-            side: BorderSide(/*color: Colors.grey,*/ width: isSelected ? 0.3 : 0.1),
+            side: BorderSide(width: isSelected ? 0.3 : 0.1),
             borderRadius: BorderRadius.circular(20),
           ),
-          // color: Color(0xFF4A4A58),
           margin: EdgeInsets.all(10),
           elevation: 8,
           child: Center(
               child: Text(
             scrumCard.cardValue,
-            // style: TextStyle(fontSize: isSelected ? 180 : 34.0 /*color: Colors.white,*/),
             style: isSelected ? Theme.of(context).textTheme.display1 : Theme.of(context).textTheme.display2,
           )),
         ),
