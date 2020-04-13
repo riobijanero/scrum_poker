@@ -44,6 +44,23 @@ mixin _$CardsStore on _CardsStore, Store {
     }, _$isMenuCardSelectedAtom, name: '${_$isMenuCardSelectedAtom.name}_set');
   }
 
+  final _$cardDeckTitleAtom = Atom(name: '_CardsStore.cardDeckTitle');
+
+  @override
+  String get cardDeckTitle {
+    _$cardDeckTitleAtom.context.enforceReadPolicy(_$cardDeckTitleAtom);
+    _$cardDeckTitleAtom.reportObserved();
+    return super.cardDeckTitle;
+  }
+
+  @override
+  set cardDeckTitle(String value) {
+    _$cardDeckTitleAtom.context.conditionallyRunInAction(() {
+      super.cardDeckTitle = value;
+      _$cardDeckTitleAtom.reportChanged();
+    }, _$cardDeckTitleAtom, name: '${_$cardDeckTitleAtom.name}_set');
+  }
+
   final _$selectedCardAtom = Atom(name: '_CardsStore.selectedCard');
 
   @override
@@ -61,7 +78,54 @@ mixin _$CardsStore on _CardsStore, Store {
     }, _$selectedCardAtom, name: '${_$selectedCardAtom.name}_set');
   }
 
+  final _$scrumCardsListAtom = Atom(name: '_CardsStore.scrumCardsList');
+
+  @override
+  List<UiCard> get scrumCardsList {
+    _$scrumCardsListAtom.context.enforceReadPolicy(_$scrumCardsListAtom);
+    _$scrumCardsListAtom.reportObserved();
+    return super.scrumCardsList;
+  }
+
+  @override
+  set scrumCardsList(List<UiCard> value) {
+    _$scrumCardsListAtom.context.conditionallyRunInAction(() {
+      super.scrumCardsList = value;
+      _$scrumCardsListAtom.reportChanged();
+    }, _$scrumCardsListAtom, name: '${_$scrumCardsListAtom.name}_set');
+  }
+
   final _$_CardsStoreActionController = ActionController(name: '_CardsStore');
+
+  @override
+  void setFibonacci() {
+    final _$actionInfo = _$_CardsStoreActionController.startAction();
+    try {
+      return super.setFibonacci();
+    } finally {
+      _$_CardsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setStandardNumbers() {
+    final _$actionInfo = _$_CardsStoreActionController.startAction();
+    try {
+      return super.setStandardNumbers();
+    } finally {
+      _$_CardsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTshirtSizes() {
+    final _$actionInfo = _$_CardsStoreActionController.startAction();
+    try {
+      return super.setTshirtSizes();
+    } finally {
+      _$_CardsStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void resetCard() {
@@ -96,7 +160,7 @@ mixin _$CardsStore on _CardsStore, Store {
   @override
   String toString() {
     final string =
-        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},selectedCard: ${selectedCard.toString()}';
+        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedCard: ${selectedCard.toString()},scrumCardsList: ${scrumCardsList.toString()}';
     return '{$string}';
   }
 }
