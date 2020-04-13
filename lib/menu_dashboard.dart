@@ -111,21 +111,24 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                               body: SafeArea(
                                 child: AbsorbPointer(
                                   absorbing: _cardsStore.isMenuCollapsed ? false : true,
-                                  child: GridView.count(
-                                    childAspectRatio: .8,
-                                    crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                                    children: _cardsStore.scrumCardsList
-                                        .map(
-                                          (uiCard) => GestureDetector(
-                                            key: ValueKey<String>(uiCard.scrumCard.cardValue),
-                                            child: uiCard,
-                                            onTap: () {
-                                              print('value: ${uiCard.scrumCard.cardValue}');
-                                              _cardsStore.selectCard(uiCard.scrumCard);
-                                            },
-                                          ),
-                                        )
-                                        .toList(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: GridView.count(
+                                      childAspectRatio: .8,
+                                      crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
+                                      children: _cardsStore.scrumCardsList
+                                          .map(
+                                            (uiCard) => GestureDetector(
+                                              key: ValueKey<String>(uiCard.scrumCard.cardValue),
+                                              child: uiCard,
+                                              onTap: () {
+                                                print('value: ${uiCard.scrumCard.cardValue}');
+                                                _cardsStore.selectCard(uiCard.scrumCard);
+                                              },
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
                                   ),
 
                                   // Column(
