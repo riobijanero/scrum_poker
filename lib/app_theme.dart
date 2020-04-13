@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static Color _iconColor = Colors.blueAccent.shade200;
+  static Color _lightIconColor = Colors.blueAccent.shade200;
+  static Color _darkIconColor = Colors.blueAccent.shade200;
 
   static const Color _lightPrimaryColor = Colors.white;
   static const Color _lightPrimaryVariantColor = Color(0XFFFAFAFA); // Scaffold background
@@ -16,7 +17,7 @@ class AppTheme {
   static const Color _darkOnPrimaryColor = Colors.white;
 
   static final TextStyle _lightScreenHeadingTextStyle = TextStyle(fontSize: 48.0, color: _lightOnPrimaryColor);
-  static final TextStyle _lightScreenMenuTextStyle = TextStyle(fontSize: 20.0, color: _lightOnPrimaryColor);
+  static final TextStyle _lightScreenMenuTextStyle = TextStyle(fontSize: 18.0, color: _lightOnPrimaryColor);
   static final TextStyle _lightScreenSingleCardTextStyle = TextStyle(fontSize: 180.0, color: _lightOnPrimaryColor);
   static final TextStyle _lightGridViewCardTextStyle = TextStyle(fontSize: 34.0, color: _lightOnPrimaryColor);
 
@@ -50,7 +51,7 @@ class AppTheme {
         title: TextStyle(fontSize: 24, color: _lightOnPrimaryColor),
       ),
     ),
-    cardColor: _lightPrimaryVariantColor,
+    cardColor: Color(0XFFF5F5F5),
     colorScheme: ColorScheme.light(
       primary: _lightPrimaryColor,
       primaryVariant: _lightPrimaryVariantColor,
@@ -66,7 +67,7 @@ class AppTheme {
       // onError: null,
       // brightness: null,
     ),
-    iconTheme: IconThemeData(color: _iconColor),
+    iconTheme: IconThemeData(color: _lightIconColor),
     textTheme: _lightTextTheme,
   );
 
@@ -80,13 +81,13 @@ class AppTheme {
       ),
     ),
     cardColor: _darkPrimaryVariantColor,
-    colorScheme: ColorScheme.light(
+    colorScheme: ColorScheme.dark(
       primary: _darkPrimaryColor,
       primaryVariant: _darkPrimaryVariantColor,
       secondary: _darkSecondaryColor,
       onPrimary: _darkOnPrimaryColor,
     ),
-    iconTheme: IconThemeData(color: _iconColor),
+    iconTheme: IconThemeData(color: Colors.yellow),
     textTheme: _darkTextTheme,
   );
 }
