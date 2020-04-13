@@ -46,6 +46,11 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
     _animationController.dispose();
   }
 
+  void collapsMenu() {
+    _cardsStore.isMenuCollapsed ? _cardsStore.resetCard() : _cardsStore.toggleMenuStatus();
+    _animationController.reverse();
+  }
+
   @override
   Widget build(BuildContext context) {
     _cardsStore = Provider.of<CardsStore>(context);
@@ -84,10 +89,8 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                     child: OrientationBuilder(
                       builder: (context, orientation) {
                         return GestureDetector(
-                          onTap: () {
-                            _cardsStore.isMenuCollapsed ? null : _cardsStore.toggleMenuStatus();
-                            _animationController.reverse();
-                          },
+                          onHorizontalDragStart: (value) => collapsMenu(),
+                          onTap: collapsMenu,
                           child: Observer(
                             builder: (_) => Scaffold(
                               resizeToAvoidBottomInset: true,
@@ -122,7 +125,6 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                                               key: ValueKey<String>(uiCard.scrumCard.cardValue),
                                               child: uiCard,
                                               onTap: () {
-                                                print('value: ${uiCard.scrumCard.cardValue}');
                                                 _cardsStore.selectCard(uiCard.scrumCard);
                                               },
                                             ),

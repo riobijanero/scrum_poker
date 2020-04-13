@@ -66,7 +66,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                GestureDetector(
+                InkWell(
                   onTap: _cardsStore.setFibonacci,
                   child: Row(
                     children: <Widget>[
