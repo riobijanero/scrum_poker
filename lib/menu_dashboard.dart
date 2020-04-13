@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:scrum_poker/app_state.dart';
 import 'package:scrum_poker/models/scrum_card.dart';
 import 'package:scrum_poker/stores/cards_store.dart';
 import 'package:provider/provider.dart';
@@ -94,6 +95,17 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                   Text('Other', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
                   SizedBox(height: 10),
                   Text('Fibonacci', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
+                  SizedBox(height: 10),
+                  Row(
+                    children: <Widget>[
+                      Switch(
+                          value: Provider.of<AppState>(context, listen: false).isDarkMode,
+                          onChanged: (boolValue) {
+                            Provider.of<AppState>(context, listen: false).toggleThemeMode();
+                          }),
+                      Text('Darkmode', style: TextStyle(/*color: Colors.white,*/ fontSize: menuFontSize)),
+                    ],
+                  ),
                 ],
               ),
             ),
