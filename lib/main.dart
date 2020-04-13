@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:scrum_poker/app_state.dart';
 import 'package:scrum_poker/app_theme.dart';
-// import 'package:scrum_poker/app_theme.dart';
+
 import 'package:scrum_poker/menu_dashboard.dart';
 import 'package:provider/provider.dart';
 import './stores/cards_store.dart';
-
-// void main() => runApp(MyApp());
 
 void main() => runApp(
       ChangeNotifierProvider<AppState>(
@@ -16,7 +14,6 @@ void main() => runApp(
     );
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Consumer<AppState>(

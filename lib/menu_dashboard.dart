@@ -75,37 +75,32 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         bottom: 0,
         left: _cardsStore.isMenuCollapsed ? -0.5 * screenWidth : 0,
         right: 0,
-        child: ScaleTransition(
-          scale: _menuScaleAnimation,
-          child: Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Dashboard ', style: TextStyle(fontSize: menuFontSize)),
-                  SizedBox(height: 10),
-                  Text('Fibonacci', style: TextStyle(fontSize: menuFontSize)),
-                  SizedBox(height: 10),
-                  Text('T-Shirt Size', style: TextStyle(fontSize: menuFontSize)),
-                  SizedBox(height: 10),
-                  Text('Other', style: TextStyle(fontSize: menuFontSize)),
-                  SizedBox(height: 10),
-                  Text('Fibonacci', style: TextStyle(fontSize: menuFontSize)),
-                  SizedBox(height: 10),
-                  Row(
-                    children: <Widget>[
-                      Switch(
-                          value: Provider.of<AppState>(context, listen: false).isDarkMode,
-                          onChanged: (boolValue) {
-                            Provider.of<AppState>(context, listen: false).toggleThemeMode();
-                          }),
-                      Text('Darkmode', style: TextStyle(fontSize: menuFontSize)),
-                    ],
-                  ),
-                ],
-              ),
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Dashboard '),
+                SizedBox(height: 10),
+                Text('Fibonacci'),
+                SizedBox(height: 10),
+                Text('T-Shirt Size'),
+                SizedBox(height: 10),
+                Text('Other'),
+                SizedBox(height: 10),
+                Row(
+                  children: <Widget>[
+                    Switch(
+                        value: Provider.of<AppState>(context, listen: false).isDarkMode,
+                        onChanged: (boolValue) {
+                          Provider.of<AppState>(context, listen: false).toggleThemeMode();
+                        }),
+                    Text('Darkmode'),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
