@@ -5,6 +5,8 @@ import '../app_state.dart';
 import 'package:scrum_poker/stores/cards_store.dart';
 import 'package:provider/provider.dart';
 
+import 'menu_item.dart';
+
 const Duration menuAnimationDuration = const Duration(milliseconds: 350);
 
 class Menu extends StatefulWidget {
@@ -19,6 +21,18 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   CardsStore _cardsStore;
   double screenWidth, screenHeight;
   static const double menuItemdistance = 20.0;
+  MenuItem menutItemStandard;
+  MenuItem menuItemFibonacci;
+  MenuItem menutItemTshirt;
+  List<MenuItem> menutItemList;
+  @override
+  void initState() {
+    menuItemFibonacci = MenuItem(menuItemTitle: 'Fibonacci', isSelected: true, menuItemicon: Icon(Icons.filter_3));
+    menutItemStandard = MenuItem(menuItemTitle: 'Standard', isSelected: false, menuItemicon: Icon(Icons.timer));
+    menutItemTshirt = MenuItem(menuItemTitle: 'T-shirt', isSelected: false, menuItemicon: Icon(Icons.landscape));
+    menutItemList = [menutItemStandard, menuItemFibonacci, menutItemTshirt];
+    super.initState();
+  }
 
   // @override
   // void initState() {
@@ -39,6 +53,16 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   //   // _animationController.dispose();
   //   super.dispose();
   // }
+  void onMenutItemRowPressed(MenuItem chosenMenuItem) {
+    for (MenuItem menuItem in menutItemList) {
+      setState(() {
+        menuItem.isSelected = false;
+      });
+    }
+    setState(() {
+      chosenMenuItem.isSelected = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,43 +90,26 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                InkWell(
-                  onTap: _cardsStore.setFibonacci,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.filter_3),
-                      ),
-                      Text('Fibonacci'),
-                    ],
-                  ),
+                MenutItemRow(
+                  menuItem: menuItemFibonacci,
+                  onPressed: () {
+                    onMenutItemRowPressed(menuItemFibonacci);
+                    _cardsStore.setFibonacci();
+                  },
                 ),
-                SizedBox(height: menuItemdistance),
-                InkWell(
-                  onTap: _cardsStore.setStandardNumbers,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.timer),
-                      ),
-                      Text('Standard'),
-                    ],
-                  ),
+                MenutItemRow(
+                  menuItem: menutItemStandard,
+                  onPressed: () {
+                    onMenutItemRowPressed(menutItemStandard);
+                    _cardsStore.setStandardNumbers();
+                  },
                 ),
-                SizedBox(height: menuItemdistance),
-                InkWell(
-                  onTap: _cardsStore.setTshirtSizes,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.landscape),
-                      ),
-                      Text('T-Shirt'),
-                    ],
-                  ),
+                MenutItemRow(
+                  menuItem: menutItemTshirt,
+                  onPressed: () {
+                    onMenutItemRowPressed(menutItemTshirt);
+                    _cardsStore.setTshirtSizes();
+                  },
                 ),
                 SizedBox(height: 8),
                 Row(
