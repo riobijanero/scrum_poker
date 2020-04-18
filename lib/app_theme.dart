@@ -8,12 +8,12 @@ class AppTheme {
 
   static const Color _lightPrimaryColor = Colors.white;
   static const Color _lightPrimaryVariantColor = Color(0XFFFAFAFA); // Scaffold background
-  static const Color _lightSecondaryColor = Colors.green;
+  static const Color _lightSecondaryColor = Colors.black54;
   static const Color _lightOnPrimaryColor = Colors.black;
 
   static const Color _darkPrimaryColor = Colors.black;
   static const Color _darkPrimaryVariantColor = Color(0xFF404041); // Scaffold background
-  static const Color _darkSecondaryColor = Colors.green;
+  static const Color _darkSecondaryColor = Colors.white70;
   static const Color _darkOnPrimaryColor = Colors.white;
 
   static final TextStyle _lightScreenHeadingTextStyle = TextStyle(fontSize: 48.0, color: _lightOnPrimaryColor);
