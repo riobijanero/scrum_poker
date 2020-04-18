@@ -27,9 +27,9 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   List<MenuItem> menutItemList;
   @override
   void initState() {
-    menuItemFibonacci = MenuItem(menuItemTitle: 'Fibonacci', isSelected: true, menuItemicon: Icon(Icons.filter_3));
-    menutItemStandard = MenuItem(menuItemTitle: 'Standard', isSelected: false, menuItemicon: Icon(Icons.timer));
-    menutItemTshirt = MenuItem(menuItemTitle: 'T-shirt', isSelected: false, menuItemicon: Icon(Icons.landscape));
+    menuItemFibonacci = MenuItem(menuItemTitle: 'Fibonacci', isSelected: true, menuItemicon: Icons.filter_3);
+    menutItemStandard = MenuItem(menuItemTitle: 'Standard', isSelected: false, menuItemicon: Icons.timer);
+    menutItemTshirt = MenuItem(menuItemTitle: 'T-shirt', isSelected: false, menuItemicon: Icons.landscape);
     menutItemList = [menutItemStandard, menuItemFibonacci, menutItemTshirt];
     super.initState();
   }
@@ -111,7 +111,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                     _cardsStore.setTshirtSizes();
                   },
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 0),
                 Row(
                   children: <Widget>[
                     Padding(

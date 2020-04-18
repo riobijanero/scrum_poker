@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MenuItem {
   final String menuItemTitle;
   bool isSelected;
-  final Icon menuItemicon;
+  final IconData menuItemicon;
 
   MenuItem({this.menuItemTitle, this.isSelected, this.menuItemicon});
 }
@@ -22,7 +22,7 @@ class MenutItemRow extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: menuItem.menuItemicon,
+              child: Icon(menuItem.menuItemicon),
             ),
             Text(menuItem.menuItemTitle,
                 style: menuItem.isSelected ? TextStyle(color: Theme.of(context).iconTheme.color) : null),
