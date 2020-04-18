@@ -4,7 +4,7 @@ class AppTheme {
   AppTheme._();
 
   static Color _lightIconColor = Colors.blueAccent.shade200;
-  static Color _darkIconColor = Colors.blueAccent.shade200;
+  static Color _darkIconColor = Colors.yellowAccent;
 
   static const Color _lightPrimaryColor = Colors.white;
   static const Color _lightPrimaryVariantColor = Color(0XFFFAFAFA); // Scaffold background
@@ -68,6 +68,7 @@ class AppTheme {
       // brightness: null,
     ),
     iconTheme: IconThemeData(color: _lightIconColor),
+    toggleableActiveColor: _lightOnPrimaryColor,
     textTheme: _lightTextTheme,
   );
 
@@ -87,7 +88,8 @@ class AppTheme {
       secondary: _darkSecondaryColor,
       onPrimary: _darkOnPrimaryColor,
     ),
-    iconTheme: IconThemeData(color: Colors.yellow),
+    iconTheme: IconThemeData(color: _darkIconColor),
+    toggleableActiveColor: _darkIconColor,
     textTheme: _darkTextTheme,
   );
 }
