@@ -47,8 +47,19 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   }
 
   void collapsMenu() {
-    _cardsStore.isMenuCollapsed ? _cardsStore.resetCard() : _cardsStore.toggleMenuStatus();
+    if (!_cardsStore.isMenuCollapsed) _cardsStore.toggleMenuStatus();
     _animationController.reverse();
+  }
+
+  void _onMenuIconPressed() {
+    {
+      if (_cardsStore.isMenuCollapsed) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+      _cardsStore.toggleMenuStatus();
+    }
   }
 
   @override
@@ -85,7 +96,6 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                     ),
                     clipBehavior: Clip.antiAlias,
                     elevation: 10,
-
                     child: OrientationBuilder(
                       builder: (context, orientation) {
                         return GestureDetector(
@@ -98,14 +108,7 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                                 elevation: 0.0,
                                 leading: IconButton(
                                   icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: _animationController),
-                                  onPressed: () {
-                                    if (_cardsStore.isMenuCollapsed) {
-                                      _animationController.forward();
-                                    } else {
-                                      _animationController.reverse();
-                                    }
-                                    _cardsStore.toggleMenuStatus();
-                                  },
+                                  onPressed: _onMenuIconPressed,
                                 ),
                                 title: Text(
                                   _cardsStore.cardDeckTitle,
@@ -114,24 +117,7 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                               body: SafeArea(
                                 child: AbsorbPointer(
                                   absorbing: _cardsStore.isMenuCollapsed ? false : true,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: GridView.count(
-                                      childAspectRatio: .8,
-                                      crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                                      children: _cardsStore.scrumCardsList
-                                          .map(
-                                            (uiCard) => GestureDetector(
-                                              key: ValueKey<String>(uiCard.scrumCard.cardValue),
-                                              child: uiCard,
-                                              onTap: () {
-                                                _cardsStore.selectCard(uiCard.scrumCard);
-                                              },
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
+                                  child: GridViewCards(cardsStore: _cardsStore, orientation: orientation),
 
                                   // Column(
                                   //   children: <Widget>[
@@ -175,6 +161,39 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                   ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class GridViewCards extends StatelessWidget {
+  const GridViewCards({
+    Key key,
+    @required this.cardsStore,
+    @required this.orientation,
+  }) : super(key: key);
+
+  final CardsStore cardsStore;
+  final Orientation orientation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: GridView.count(
+        childAspectRatio: .8,
+        crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
+        children: cardsStore.scrumCardsList
+            .map(
+              (uiCard) => GestureDetector(
+                key: ValueKey<String>(uiCard.scrumCard.cardValue),
+                child: uiCard,
+                onTap: () {
+                  cardsStore.selectCard(uiCard.scrumCard);
+                },
+              ),
+            )
+            .toList(),
       ),
     );
   }
