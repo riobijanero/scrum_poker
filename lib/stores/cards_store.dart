@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import '../models/scrum_card.dart';
 import '../widgets/ui_card.dart';
@@ -15,13 +14,13 @@ abstract class _CardsStore with Store {
   bool isMenuCardSelected = false;
 
   @observable
-  String cardDeckTitle = 'Standard';
+  String cardDeckTitle = 'Fibnoacci';
 
   @observable
   ScrumCard selectedCard;
 
   @observable
-  List<UiCard> scrumCardsList = standardList;
+  List<UiCard> scrumCardsList = fibonacciList;
 
   static List<UiCard> standardList = [
     UiCard(ScrumCard(cardValue: 1.toString(), description: 'test description')),
