@@ -11,9 +11,8 @@ class UiCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: isSelected ? onTab : null,
-      child: SizedBox(
-        height: 500,
-        width: 350,
+      child: AspectRatio(
+        aspectRatio: 3.5 / 5,
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(width: isSelected ? 0.3 : 0.1),
