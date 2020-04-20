@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:scrum_poker/stores/cards_store.dart';
@@ -33,12 +35,21 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   CardsStore _cardsStore;
   AnimationController _animationController;
   Animation<double> _scaleAnimation;
+  PageController controller;
+  double currentPage;
 
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: dashboardDuration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(_animationController);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _cardsStore = Provider.of<CardsStore>(context);
+    currentPage = _cardsStore.scrumCardsList.length - 1.0;
+    super.didChangeDependencies();
   }
 
   @override
@@ -64,7 +75,12 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    _cardsStore = Provider.of<CardsStore>(context);
+    controller = PageController(initialPage: _cardsStore.scrumCardsList.length - 1);
+    controller.addListener(() {
+      setState(() {
+        currentPage = controller.page;
+      });
+    });
     Size size = MediaQuery.of(context).size;
     screenHeight = size.height;
     screenWidth = size.width;
@@ -81,10 +97,13 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
           child: AnimatedSwitcher(
             duration: Duration(milliseconds: 200),
             child: _cardsStore.isMenuCardSelected
-                ? UiCard(
-                    _cardsStore.selectedCard,
-                    isSelected: true,
-                    onTab: _cardsStore.resetCard,
+                ? Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: UiCard(
+                      _cardsStore.selectedCard,
+                      isSelected: true,
+                      onTab: _cardsStore.resetCard,
+                    ),
                   )
                 : Material(
                     key: ValueKey<String>('mainpage'),
@@ -117,7 +136,29 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                               body: SafeArea(
                                 child: AbsorbPointer(
                                   absorbing: _cardsStore.isMenuCollapsed ? false : true,
-                                  child: GridViewCards(cardsStore: _cardsStore, orientation: orientation),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      CardScrollWidget(currentPage, _cardsStore),
+                                      Positioned.fill(
+                                        child: PageView.builder(
+                                          itemCount: _cardsStore.scrumCardsList.length,
+                                          controller: controller,
+                                          reverse: true,
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                _cardsStore.selectCard(_cardsStore.scrumCardsList[index].scrumCard);
+                                              },
+                                              child: Container(
+                                                color: Colors.transparent,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  // GridViewCards(cardsStore: _cardsStore, orientation: orientation),
 
                                   // Column(
                                   //   children: <Widget>[
@@ -195,6 +236,103 @@ class GridViewCards extends StatelessWidget {
             )
             .toList(),
       ),
+    );
+  }
+}
+
+class CardScrollWidget extends StatelessWidget {
+  double currentPage;
+  final CardsStore cardsStore;
+  static double padding = 20.0;
+  static double verticalInset = 20.0;
+
+  static double cardAspectRatio = 12.0 / 16.0;
+  double widgetAspectRatio = cardAspectRatio * 1.2;
+
+  CardScrollWidget(
+    this.currentPage,
+    this.cardsStore,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: widgetAspectRatio,
+      child: LayoutBuilder(builder: (context, contraints) {
+        double width = contraints.maxWidth;
+        double height = contraints.maxHeight;
+
+        double safeWidth = width - 2 * padding;
+        double safeHeight = height - 2 * padding;
+
+        double heightOfPrimaryCard = safeHeight;
+        double widthOfPrimaryCard = heightOfPrimaryCard * cardAspectRatio;
+
+        double primaryCardLeft = safeWidth - widthOfPrimaryCard;
+        double horizontalInset = primaryCardLeft / 2;
+
+        List<Widget> cardList = List();
+
+        for (int i = 0; i < cardsStore.scrumCardsList.length; i++) {
+          num delta = i - currentPage;
+          bool isOnRight = delta > 0;
+
+          double start = padding + max(primaryCardLeft - horizontalInset * -delta * (isOnRight ? 15 : 1), 0.0);
+
+          Positioned cardItem = Positioned.directional(
+            top: padding + verticalInset * max(-delta, 0.0),
+            bottom: padding + verticalInset * max(-delta, 0.0),
+            start: start,
+            textDirection: TextDirection.rtl,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: Container(
+                // decoration: BoxDecoration(color: Theme.of(context).colorScheme.primaryVariant, // Colors.white,
+                //     boxShadow: [BoxShadow(color: Colors.black12, offset: Offset(3.0, 6.0), blurRadius: 10.0)]),
+                child: AspectRatio(
+                  aspectRatio: cardAspectRatio,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      cardsStore.scrumCardsList[i],
+                      // Align(
+                      //   alignment: Alignment.bottomLeft,
+                      //   child: Column(
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: <Widget>[
+                      //       Padding(
+                      //         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      //         child: Text(cardsStore.scrumCardsList[i].scrumCard.description,
+                      //             style: TextStyle(fontSize: 25.0)),
+                      //       ),
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       Padding(
+                      //         padding: const EdgeInsets.only(left: 12.0, bottom: 12.0),
+                      //         child: Container(
+                      //           padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
+                      //           decoration:
+                      //               BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(20.0)),
+                      //           child: Text("Read Later", style: TextStyle(color: Colors.white)),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+          cardList.add(cardItem);
+        }
+        return Stack(
+          children: cardList,
+        );
+      }),
     );
   }
 }
