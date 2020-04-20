@@ -18,7 +18,7 @@ class AppTheme {
 
   static final TextStyle _lightScreenHeadingTextStyle = TextStyle(fontSize: 48.0, color: _lightOnPrimaryColor);
   static final TextStyle _lightScreenMenuTextStyle = TextStyle(fontSize: 18.0, color: _lightOnPrimaryColor);
-  static final TextStyle _lightScreenSingleCardTextStyle = TextStyle(fontSize: 180.0, color: _lightOnPrimaryColor);
+  static final TextStyle _lightScreenSingleCardTextStyle = TextStyle(fontSize: 160.0, color: _lightOnPrimaryColor);
   static final TextStyle _lightGridViewCardTextStyle = TextStyle(fontSize: 34.0, color: _lightOnPrimaryColor);
 
   static final TextStyle _darkScreenHeadingTextStyle =
