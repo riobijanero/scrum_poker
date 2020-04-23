@@ -187,46 +187,6 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   }
 }
 
-class CardStack extends StatelessWidget {
-  const CardStack({
-    Key key,
-    @required this.currentPage,
-    @required CardsStore cardsStore,
-    @required this.controller,
-  })  : _cardsStore = cardsStore,
-        super(key: key);
-
-  final double currentPage;
-  final CardsStore _cardsStore;
-  final PageController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        CardScrollWidget(currentPage, _cardsStore),
-        Positioned.fill(
-          child: PageView.builder(
-            itemCount: _cardsStore.scrumCardsList.length,
-            controller: controller,
-            reverse: true,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  _cardsStore.selectCard(_cardsStore.scrumCardsList[index].scrumCard);
-                },
-                child: Container(
-                  color: Colors.transparent,
-                ),
-              );
-            },
-          ),
-        )
-      ],
-    );
-  }
-}
-
 class GridViewCards extends StatelessWidget {
   const GridViewCards({
     Key key,
@@ -260,13 +220,55 @@ class GridViewCards extends StatelessWidget {
   }
 }
 
+class CardStack extends StatelessWidget {
+  const CardStack({
+    Key key,
+    @required this.currentPage,
+    @required CardsStore cardsStore,
+    @required this.controller,
+  })  : _cardsStore = cardsStore,
+        super(key: key);
+
+  final double currentPage;
+  final CardsStore _cardsStore;
+  final PageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          CardScrollWidget(currentPage, _cardsStore),
+          Positioned.fill(
+            child: PageView.builder(
+              itemCount: _cardsStore.scrumCardsList.length,
+              controller: controller,
+              reverse: true,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    _cardsStore.selectCard(_cardsStore.scrumCardsList[index].scrumCard);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class CardScrollWidget extends StatelessWidget {
   double currentPage;
   final CardsStore cardsStore;
   static double padding = 20.0;
   static double verticalInset = 20.0;
 
-  static double cardAspectRatio = 12.0 / 16.0;
+  static double cardAspectRatio = 3.5 / 5.5;
   double widgetAspectRatio = cardAspectRatio * 1.2;
 
   CardScrollWidget(
@@ -316,32 +318,41 @@ class CardScrollWidget extends StatelessWidget {
                     fit: StackFit.expand,
                     children: <Widget>[
                       scrumCardsList[i],
-                      // Align(
-                      //   alignment: Alignment.bottomLeft,
-                      //   child: Column(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: <Widget>[
-                      //       Padding(
-                      //         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      //         child: Text(cardsStore.scrumCardsList[i].scrumCard.description,
-                      //             style: TextStyle(fontSize: 25.0)),
-                      //       ),
-                      //       SizedBox(
-                      //         height: 10.0,
-                      //       ),
-                      //       Padding(
-                      //         padding: const EdgeInsets.only(left: 12.0, bottom: 12.0),
-                      //         child: Container(
-                      //           padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
-                      //           decoration:
-                      //               BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(20.0)),
-                      //           child: Text("Read Later", style: TextStyle(color: Colors.white)),
-                      //         ),
-                      //       )
-                      //     ],
-                      //   ),
-                      // )
+                      if (i >= currentPage - 1)
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10.0, bottom: 25),
+                            child: Wrap(
+                              direction: Axis.vertical,
+                              // mainAxisSize: MainAxisSize.min,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: Text(
+                                    cardsStore.scrumCardsList[i].scrumCard.description,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(left: 12.0, bottom: 22.0),
+                                //   child: GestureDetector(
+                                //     onTap: () => print('selected'),
+                                //     child: Container(
+                                //       padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
+                                //       decoration: BoxDecoration(
+                                //           color: Colors.blueAccent, borderRadius: BorderRadius.circular(20.0)),
+                                //       child: Text("modify description", style: TextStyle(color: Colors.white)),
+                                //     ),
+                                //   ),
+                                // )
+                              ],
+                            ),
+                          ),
+                        )
                     ],
                   ),
                 ),
