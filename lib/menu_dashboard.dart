@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:scrum_poker/stores/cards_store.dart';
 import 'package:provider/provider.dart';
 import 'package:scrum_poker/widgets/menu.dart';
+import 'package:scrum_poker/widgets/menu_item.dart';
 import 'package:scrum_poker/widgets/ui_card.dart';
 
 final Color backgroundColor = Color(0xFF4A4A58);
@@ -37,11 +38,19 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   Animation<double> _scaleAnimation;
   PageController controller;
   double currentPage;
+  MenuItem gridViewStyle;
+  MenuItem stackViewStyle;
+  MenuItem slideViewStyle;
+  List<MenuItem> viewStyleList;
 
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: dashboardDuration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(_animationController);
+    gridViewStyle = MenuItem(menuItemTitle: 'Grid', isSelected: false);
+    stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: true);
+    slideViewStyle = MenuItem(menuItemTitle: 'Caroussel', isSelected: false);
+    viewStyleList = [gridViewStyle, stackViewStyle, slideViewStyle];
     super.initState();
   }
 
@@ -71,6 +80,19 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
       }
       _cardsStore.toggleMenuStatus();
     }
+  }
+
+  void onCardViewStyleChosen(MenuItem viewStyleIsChosen) {
+    for (MenuItem viewStyle in viewStyleList) {
+      setState(() {
+        viewStyle.isSelected = false;
+      });
+    }
+    setState(() {
+      viewStyleIsChosen.isSelected = true;
+    });
+
+    print(viewStyleList);
   }
 
   @override
@@ -136,42 +158,60 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                               body: SafeArea(
                                 child: AbsorbPointer(
                                   absorbing: _cardsStore.isMenuCollapsed ? false : true,
-                                  child: CardStack(
-                                      currentPage: currentPage, cardsStore: _cardsStore, controller: controller),
-                                  // GridViewCards(cardsStore: _cardsStore, orientation: orientation),
-
-                                  // Column(
-                                  //   children: <Widget>[
-                                  //     Container(
-                                  //       height: 200,
-                                  //       child: PageView(
-                                  //         controller: PageController(viewportFraction: 0.8),
-                                  //         scrollDirection: Axis.horizontal,
-                                  //         pageSnapping: true,
-                                  //         children: <Widget>[
-                                  //           Container(
-                                  //             decoration: BoxDecoration(
-                                  //                 color: Colors.redAccent, borderRadius: borderRadiusCards),
-                                  //             margin: const EdgeInsets.symmetric(horizontal: 8),
-                                  //             width: 100,
-                                  //           ),
-                                  //           Container(
-                                  //             decoration: BoxDecoration(
-                                  //                 color: Colors.blueAccent, borderRadius: borderRadiusCards),
-                                  //             margin: const EdgeInsets.symmetric(horizontal: 8),
-                                  //             width: 100,
-                                  //           ),
-                                  //           Container(
-                                  //             decoration: BoxDecoration(
-                                  //                 color: Colors.greenAccent, borderRadius: borderRadiusCards),
-                                  //             margin: const EdgeInsets.symmetric(horizontal: 8),
-                                  //             width: 100,
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //     )
-                                  //   ],
-                                  // ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            GestureDetector(
+                                              onTap: () => onCardViewStyleChosen(gridViewStyle),
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.blueAccent,
+                                                    borderRadius: BorderRadius.circular(20.0)),
+                                                child:
+                                                    Text("Grid", style: TextStyle(color: Colors.white, fontSize: 14)),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () => onCardViewStyleChosen(stackViewStyle),
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.blueAccent,
+                                                    borderRadius: BorderRadius.circular(20.0)),
+                                                child:
+                                                    Text("Stack", style: TextStyle(color: Colors.white, fontSize: 14)),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () => onCardViewStyleChosen(slideViewStyle),
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.blueAccent,
+                                                    borderRadius: BorderRadius.circular(20.0)),
+                                                child:
+                                                    Text("Slides", style: TextStyle(color: Colors.white, fontSize: 14)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      gridViewStyle.isSelected
+                                          ? Expanded(
+                                              child: GridViewCards(cardsStore: _cardsStore, orientation: orientation))
+                                          : stackViewStyle.isSelected
+                                              ? CardStack(
+                                                  currentPage: currentPage,
+                                                  cardsStore: _cardsStore,
+                                                  controller: controller)
+                                              : Text('caroussel'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -235,7 +275,8 @@ class CardStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Stack(
         children: <Widget>[
           CardScrollWidget(currentPage, _cardsStore),
@@ -337,18 +378,18 @@ class CardScrollWidget extends StatelessWidget {
                                 SizedBox(
                                   height: 10.0,
                                 ),
-                                // Padding(
-                                //   padding: const EdgeInsets.only(left: 12.0, bottom: 22.0),
-                                //   child: GestureDetector(
-                                //     onTap: () => print('selected'),
-                                //     child: Container(
-                                //       padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
-                                //       decoration: BoxDecoration(
-                                //           color: Colors.blueAccent, borderRadius: BorderRadius.circular(20.0)),
-                                //       child: Text("modify description", style: TextStyle(color: Colors.white)),
-                                //     ),
-                                //   ),
-                                // )
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12.0, bottom: 22.0),
+                                  child: GestureDetector(
+                                    onTap: () => print('selected'),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
+                                      decoration: BoxDecoration(
+                                          color: Colors.blueAccent, borderRadius: BorderRadius.circular(20.0)),
+                                      child: Text("modify description", style: TextStyle(color: Colors.white)),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
