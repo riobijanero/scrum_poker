@@ -136,28 +136,8 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                               body: SafeArea(
                                 child: AbsorbPointer(
                                   absorbing: _cardsStore.isMenuCollapsed ? false : true,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      CardScrollWidget(currentPage, _cardsStore),
-                                      Positioned.fill(
-                                        child: PageView.builder(
-                                          itemCount: _cardsStore.scrumCardsList.length,
-                                          controller: controller,
-                                          reverse: true,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                _cardsStore.selectCard(_cardsStore.scrumCardsList[index].scrumCard);
-                                              },
-                                              child: Container(
-                                                color: Colors.transparent,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                  child: CardStack(
+                                      currentPage: currentPage, cardsStore: _cardsStore, controller: controller),
                                   // GridViewCards(cardsStore: _cardsStore, orientation: orientation),
 
                                   // Column(
@@ -203,6 +183,46 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
           ),
         ),
       ),
+    );
+  }
+}
+
+class CardStack extends StatelessWidget {
+  const CardStack({
+    Key key,
+    @required this.currentPage,
+    @required CardsStore cardsStore,
+    @required this.controller,
+  })  : _cardsStore = cardsStore,
+        super(key: key);
+
+  final double currentPage;
+  final CardsStore _cardsStore;
+  final PageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        CardScrollWidget(currentPage, _cardsStore),
+        Positioned.fill(
+          child: PageView.builder(
+            itemCount: _cardsStore.scrumCardsList.length,
+            controller: controller,
+            reverse: true,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  _cardsStore.selectCard(_cardsStore.scrumCardsList[index].scrumCard);
+                },
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 }
@@ -271,9 +291,10 @@ class CardScrollWidget extends StatelessWidget {
         double primaryCardLeft = safeWidth - widthOfPrimaryCard;
         double horizontalInset = primaryCardLeft / 2;
 
+        List<Widget> scrumCardsList = cardsStore.scrumCardsList.reversed.toList();
         List<Widget> cardList = List();
 
-        for (int i = 0; i < cardsStore.scrumCardsList.length; i++) {
+        for (int i = 0; i < scrumCardsList.length; i++) {
           num delta = i - currentPage;
           bool isOnRight = delta > 0;
 
@@ -294,7 +315,7 @@ class CardScrollWidget extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      cardsStore.scrumCardsList[i],
+                      scrumCardsList[i],
                       // Align(
                       //   alignment: Alignment.bottomLeft,
                       //   child: Column(
