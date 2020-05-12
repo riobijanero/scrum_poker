@@ -19,7 +19,7 @@ abstract class _CardsStore with Store {
   String cardDeckTitle = 'Fibnoacci';
 
   @observable
-  ScrumComplexity selectedCard;
+  ScrumComplexity selectedComplexity;
 
   @observable
   List<ScrumCard> scrumCardsList = fibonacciList;
@@ -65,14 +65,14 @@ abstract class _CardsStore with Store {
   @action
   void resetCard() {
     isMenuCardSelected = false;
-    selectedCard = null;
+    selectedComplexity = null;
   }
 
   @action
-  void selectCard(ScrumComplexity card) {
+  void selectComplexity(ScrumComplexity complexity) {
     isMenuCardSelected = true;
-    selectedCard = card;
-    print('selectedCard: $selectedCard');
+    selectedComplexity = complexity;
+    print('selectedCard: $selectedComplexity');
     print('isMenuCardSelected: $isMenuCardSelected');
   }
 

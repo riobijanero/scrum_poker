@@ -30,8 +30,7 @@ mixin _$CardsStore on _CardsStore, Store {
 
   @override
   bool get isMenuCardSelected {
-    _$isMenuCardSelectedAtom.context
-        .enforceReadPolicy(_$isMenuCardSelectedAtom);
+    _$isMenuCardSelectedAtom.context.enforceReadPolicy(_$isMenuCardSelectedAtom);
     _$isMenuCardSelectedAtom.reportObserved();
     return super.isMenuCardSelected;
   }
@@ -64,16 +63,16 @@ mixin _$CardsStore on _CardsStore, Store {
   final _$selectedCardAtom = Atom(name: '_CardsStore.selectedCard');
 
   @override
-  ScrumComplexity get selectedCard {
+  ScrumComplexity get selectedComplexity {
     _$selectedCardAtom.context.enforceReadPolicy(_$selectedCardAtom);
     _$selectedCardAtom.reportObserved();
-    return super.selectedCard;
+    return super.selectedComplexity;
   }
 
   @override
-  set selectedCard(ScrumComplexity value) {
+  set selectedComplexity(ScrumComplexity value) {
     _$selectedCardAtom.context.conditionallyRunInAction(() {
-      super.selectedCard = value;
+      super.selectedComplexity = value;
       _$selectedCardAtom.reportChanged();
     }, _$selectedCardAtom, name: '${_$selectedCardAtom.name}_set');
   }
@@ -138,10 +137,10 @@ mixin _$CardsStore on _CardsStore, Store {
   }
 
   @override
-  void selectCard(ScrumComplexity card) {
+  void selectComplexity(ScrumComplexity card) {
     final _$actionInfo = _$_CardsStoreActionController.startAction();
     try {
-      return super.selectCard(card);
+      return super.selectComplexity(card);
     } finally {
       _$_CardsStoreActionController.endAction(_$actionInfo);
     }
@@ -160,7 +159,7 @@ mixin _$CardsStore on _CardsStore, Store {
   @override
   String toString() {
     final string =
-        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedCard: ${selectedCard.toString()},scrumCardsList: ${scrumCardsList.toString()}';
+        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedCard: ${selectedComplexity.toString()},scrumCardsList: ${scrumCardsList.toString()}';
     return '{$string}';
   }
 }
