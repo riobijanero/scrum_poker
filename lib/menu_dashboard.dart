@@ -6,7 +6,6 @@ import './widgets/card_stack.dart';
 import './widgets/card_grid.dart';
 import './widgets/menu.dart';
 import './models/menu_item.dart';
-import './widgets/scrum_card.dart';
 import './widgets/selection_button.dart';
 
 final Color backgroundColor = Color(0xFF4A4A58);
@@ -65,6 +64,7 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   @override
   void dispose() {
     _animationController.dispose();
+    super.dispose();
   }
 
   void collapsMenu() {
@@ -117,89 +117,74 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
         right: _cardsStore.isMenuCollapsed ? 0 : -0.5 * screenWidth,
         child: ScaleTransition(
           scale: _scaleAnimation,
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 200),
-            child: _cardsStore.isMenuCardSelected
-                ? Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ScrumCard(
-                      key: ValueKey(_cardsStore.selectedCard.complexityValue.toString()),
-                      scrumComplexity: _cardsStore.selectedCard,
-                      isSelected: true,
-                      onTab: _cardsStore.resetCard,
-                    ),
-                  )
-                : Material(
-                    key: ValueKey<String>('mainpage'),
-                    // animationDuration: dashboardDuration,
-                    // borderRadius: borderRadius,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      side: BorderSide(width: 0.3),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    elevation: 10,
-                    child: OrientationBuilder(
-                      builder: (context, orientation) {
-                        return GestureDetector(
-                          onHorizontalDragStart: (value) => collapsMenu(),
-                          onTap: collapsMenu,
-                          child: Observer(
-                            builder: (_) => Scaffold(
-                              resizeToAvoidBottomInset: true,
-                              appBar: AppBar(
-                                elevation: 0.0,
-                                leading: IconButton(
-                                  icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: _animationController),
-                                  onPressed: _onMenuIconPressed,
-                                ),
-                                title: Text(
-                                  _cardsStore.cardDeckTitle,
-                                ),
-                              ),
-                              body: SafeArea(
-                                child: AbsorbPointer(
-                                  absorbing: _cardsStore.isMenuCollapsed ? false : true,
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            SelectionButton(
-                                              menuItem: gridViewStyle,
-                                              onPress: () => onCardViewStyleChosen(gridViewStyle),
-                                            ),
-                                            SelectionButton(
-                                              menuItem: stackViewStyle,
-                                              onPress: () => onCardViewStyleChosen(stackViewStyle),
-                                            ),
-                                            SelectionButton(
-                                              menuItem: slideViewStyle,
-                                              onPress: () => onCardViewStyleChosen(slideViewStyle),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      gridViewStyle.isSelected
-                                          ? Expanded(child: CardGrid(cardsStore: _cardsStore, orientation: orientation))
-                                          : stackViewStyle.isSelected
-                                              ? CardStack(
-                                                  currentPage: currentPage,
-                                                  cardsStore: _cardsStore,
-                                                  controller: controller)
-                                              : Text('slides'),
-                                    ],
-                                  ),
+          child: Material(
+            key: ValueKey<String>('mainpage'),
+            // animationDuration: dashboardDuration,
+            // borderRadius: borderRadius,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+              side: BorderSide(width: 0.3),
+            ),
+            clipBehavior: Clip.antiAlias,
+            elevation: 10,
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                return GestureDetector(
+                  onHorizontalDragStart: (value) => collapsMenu(),
+                  onTap: collapsMenu,
+                  child: Observer(
+                    builder: (_) => Scaffold(
+                      resizeToAvoidBottomInset: true,
+                      appBar: AppBar(
+                        elevation: 0.0,
+                        leading: IconButton(
+                          icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: _animationController),
+                          onPressed: _onMenuIconPressed,
+                        ),
+                        title: Text(
+                          _cardsStore.cardDeckTitle,
+                        ),
+                      ),
+                      body: SafeArea(
+                        child: AbsorbPointer(
+                          absorbing: _cardsStore.isMenuCollapsed ? false : true,
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    SelectionButton(
+                                      menuItem: gridViewStyle,
+                                      onPress: () => onCardViewStyleChosen(gridViewStyle),
+                                    ),
+                                    SelectionButton(
+                                      menuItem: stackViewStyle,
+                                      onPress: () => onCardViewStyleChosen(stackViewStyle),
+                                    ),
+                                    SelectionButton(
+                                      menuItem: slideViewStyle,
+                                      onPress: () => onCardViewStyleChosen(slideViewStyle),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
+                              gridViewStyle.isSelected
+                                  ? Expanded(child: CardGrid(cardsStore: _cardsStore, orientation: orientation))
+                                  : stackViewStyle.isSelected
+                                      ? CardStack(
+                                          currentPage: currentPage, cardsStore: _cardsStore, controller: controller)
+                                      : Text('slides'),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                   ),
+                );
+              },
+            ),
           ),
         ),
       ),
