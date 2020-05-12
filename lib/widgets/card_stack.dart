@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:scrum_poker/models/scrum_complexity.dart';
+import 'package:scrum_poker/widgets/card_detail_screen.dart';
+import 'package:scrum_poker/widgets/scrum_card.dart';
 import '../stores/cards_store.dart';
 
 class CardStack extends StatelessWidget {
-  const CardStack({
+  CardStack({
     Key key,
     @required this.currentPage,
     @required CardsStore cardsStore,
@@ -13,28 +16,31 @@ class CardStack extends StatelessWidget {
         super(key: key);
 
   final double currentPage;
+  ScrumComplexity _currentComplexity;
   final CardsStore _cardsStore;
   final PageController controller;
+  List<ScrumCard> scrumCardList;
 
   @override
   Widget build(BuildContext context) {
+    scrumCardList = _cardsStore.scrumCardsList.reversed.toList();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Stack(
         children: <Widget>[
-          CardScrollWidget(currentPage, _cardsStore),
+          CardScrollWidget(currentPage, scrumCardList),
           Positioned.fill(
             child: PageView.builder(
               itemCount: _cardsStore.scrumCardsList.length,
               controller: controller,
               reverse: true,
               itemBuilder: (context, index) {
+                _currentComplexity = scrumCardList[index].scrumComplexity;
                 return GestureDetector(
-                  onTap: () {
-                    _cardsStore.selectCard(_cardsStore.scrumCardsList.reversed.toList()[index].scrumComplexity);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
+                  onTap: () => _onStackCardPressed(context, _currentComplexity),
+                  child: Hero(
+                    tag: 'heroTag ${_currentComplexity.complexityValue}',
+                    child: Container(color: Colors.transparent),
                   ),
                 );
               },
@@ -44,21 +50,25 @@ class CardStack extends StatelessWidget {
       ),
     );
   }
+
+  void _onStackCardPressed(BuildContext context, ScrumComplexity scrumComplexity) {
+    _cardsStore.selectComplexity(scrumComplexity);
+    Navigator.push(context, MaterialPageRoute(builder: (_) {
+      return CardDetailScreen(scrumComplexity);
+    }));
+  }
 }
 
 class CardScrollWidget extends StatelessWidget {
   final double currentPage;
-  final CardsStore cardsStore;
+  final List<ScrumCard> scrumCardList;
   static double padding = 20.0;
   static double verticalInset = 20.0;
 
   static double cardAspectRatio = 3.5 / 5.5;
   static double widgetAspectRatio = cardAspectRatio * 1.2;
 
-  CardScrollWidget(
-    this.currentPage,
-    this.cardsStore,
-  );
+  CardScrollWidget(this.currentPage, this.scrumCardList);
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +87,9 @@ class CardScrollWidget extends StatelessWidget {
         double primaryCardLeft = safeWidth - widthOfPrimaryCard;
         double horizontalInset = primaryCardLeft / 2;
 
-        List<Widget> scrumCardsList = cardsStore.scrumCardsList.reversed.toList();
         List<Widget> cardList = List();
 
-        for (int i = 0; i < scrumCardsList.length; i++) {
+        for (int i = 0; i < scrumCardList.length; i++) {
           num delta = i - currentPage;
           bool isOnRight = delta > 0;
 
@@ -101,7 +110,7 @@ class CardScrollWidget extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      scrumCardsList[i],
+                      scrumCardList[i],
                       if (i >= currentPage - 1)
                         Align(
                           alignment: Alignment.bottomLeft,
@@ -115,7 +124,7 @@ class CardScrollWidget extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                                   child: Text(
-                                    cardsStore.scrumCardsList[i].scrumComplexity.valueDescription,
+                                    scrumCardList[i].scrumComplexity.valueDescription,
                                   ),
                                 ),
                                 SizedBox(
