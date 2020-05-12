@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scrum_poker/models/scrum_complexity.dart';
+import 'package:scrum_poker/widgets/card_detail_screen.dart';
 import '../stores/cards_store.dart';
 
 class CardGrid extends StatelessWidget {
@@ -20,16 +22,20 @@ class CardGrid extends StatelessWidget {
         crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
         children: cardsStore.scrumCardsList
             .map(
-              (uiCard) => GestureDetector(
-                key: ValueKey<String>(uiCard.scrumComplexity.complexityValue),
-                child: uiCard,
-                onTap: () {
-                  cardsStore.selectCard(uiCard.scrumComplexity);
-                },
-              ),
+              (scrumCard) => GestureDetector(
+                  key: ValueKey<String>(scrumCard.scrumComplexity.complexityValue),
+                  child: Hero(tag: 'heroTag ${scrumCard.scrumComplexity.complexityValue}', child: scrumCard),
+                  onTap: () => _onGridCardPressed(context, scrumCard.scrumComplexity)),
             )
             .toList(),
       ),
     );
+  }
+
+  void _onGridCardPressed(BuildContext context, ScrumComplexity scrumComplexity) {
+    cardsStore.selectComplexity(scrumComplexity);
+    Navigator.push(context, MaterialPageRoute(builder: (_) {
+      return CardDetailScreen(scrumComplexity);
+    }));
   }
 }
