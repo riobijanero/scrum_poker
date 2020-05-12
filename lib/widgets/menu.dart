@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import '../widgets/menu_item_row.dart';
 import '../app_state.dart';
 
 import 'package:scrum_poker/stores/cards_store.dart';
 import 'package:provider/provider.dart';
 
-import 'menu_item.dart';
+import '../models/menu_item.dart';
 
 const Duration menuAnimationDuration = const Duration(milliseconds: 350);
 
@@ -83,50 +84,53 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         bottom: 0,
         left: _cardsStore.isMenuCollapsed ? -0.5 * screenWidth : 0,
         right: 0,
-        child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                MenutItemRow(
-                  menuItem: menuItemFibonacci,
-                  onPressed: () {
-                    onMenutItemRowPressed(menuItemFibonacci);
-                    _cardsStore.setFibonacci();
-                  },
-                ),
-                MenutItemRow(
-                  menuItem: menutItemStandard,
-                  onPressed: () {
-                    onMenutItemRowPressed(menutItemStandard);
-                    _cardsStore.setStandardNumbers();
-                  },
-                ),
-                MenutItemRow(
-                  menuItem: menutItemTshirt,
-                  onPressed: () {
-                    onMenutItemRowPressed(menutItemTshirt);
-                    _cardsStore.setTshirtSizes();
-                  },
-                ),
-                SizedBox(height: 0),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Icon(Icons.brightness_3),
-                    ),
-                    Text('Darkmode'),
-                    Switch(
-                        value: Provider.of<AppState>(context, listen: false).isDarkMode,
-                        onChanged: (boolValue) {
-                          Provider.of<AppState>(context, listen: false).toggleThemeMode();
-                        }),
-                  ],
-                ),
-              ],
+        child: SafeArea(
+          bottom: true,
+          child: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  MenutItemRow(
+                    menuItem: menuItemFibonacci,
+                    onPressed: () {
+                      onMenutItemRowPressed(menuItemFibonacci);
+                      _cardsStore.setFibonacci();
+                    },
+                  ),
+                  MenutItemRow(
+                    menuItem: menutItemStandard,
+                    onPressed: () {
+                      onMenutItemRowPressed(menutItemStandard);
+                      _cardsStore.setStandardNumbers();
+                    },
+                  ),
+                  MenutItemRow(
+                    menuItem: menutItemTshirt,
+                    onPressed: () {
+                      onMenutItemRowPressed(menutItemTshirt);
+                      _cardsStore.setTshirtSizes();
+                    },
+                  ),
+                  SizedBox(height: 0),
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.brightness_3),
+                      ),
+                      Text('Darkmode'),
+                      Switch(
+                          value: Provider.of<AppState>(context, listen: false).isDarkMode,
+                          onChanged: (boolValue) {
+                            Provider.of<AppState>(context, listen: false).toggleThemeMode();
+                          }),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
