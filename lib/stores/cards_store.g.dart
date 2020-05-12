@@ -64,14 +64,14 @@ mixin _$CardsStore on _CardsStore, Store {
   final _$selectedCardAtom = Atom(name: '_CardsStore.selectedCard');
 
   @override
-  ScrumCard get selectedCard {
+  ScrumComplexity get selectedCard {
     _$selectedCardAtom.context.enforceReadPolicy(_$selectedCardAtom);
     _$selectedCardAtom.reportObserved();
     return super.selectedCard;
   }
 
   @override
-  set selectedCard(ScrumCard value) {
+  set selectedCard(ScrumComplexity value) {
     _$selectedCardAtom.context.conditionallyRunInAction(() {
       super.selectedCard = value;
       _$selectedCardAtom.reportChanged();
@@ -81,14 +81,14 @@ mixin _$CardsStore on _CardsStore, Store {
   final _$scrumCardsListAtom = Atom(name: '_CardsStore.scrumCardsList');
 
   @override
-  List<UiCard> get scrumCardsList {
+  List<ScrumCard> get scrumCardsList {
     _$scrumCardsListAtom.context.enforceReadPolicy(_$scrumCardsListAtom);
     _$scrumCardsListAtom.reportObserved();
     return super.scrumCardsList;
   }
 
   @override
-  set scrumCardsList(List<UiCard> value) {
+  set scrumCardsList(List<ScrumCard> value) {
     _$scrumCardsListAtom.context.conditionallyRunInAction(() {
       super.scrumCardsList = value;
       _$scrumCardsListAtom.reportChanged();
@@ -138,7 +138,7 @@ mixin _$CardsStore on _CardsStore, Store {
   }
 
   @override
-  void selectCard(ScrumCard card) {
+  void selectCard(ScrumComplexity card) {
     final _$actionInfo = _$_CardsStoreActionController.startAction();
     try {
       return super.selectCard(card);

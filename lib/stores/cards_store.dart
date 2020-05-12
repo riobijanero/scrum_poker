@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
-import '../models/scrum_card.dart';
-import '../widgets/ui_card.dart';
+import '../models/complexity_list.dart';
+import '../models/scrum_complexity.dart';
+import '../widgets/scrum_card.dart';
 
 part 'cards_store.g.dart';
 
@@ -17,49 +19,30 @@ abstract class _CardsStore with Store {
   String cardDeckTitle = 'Fibnoacci';
 
   @observable
-  ScrumCard selectedCard;
+  ScrumComplexity selectedCard;
 
   @observable
-  List<UiCard> scrumCardsList = fibonacciList;
+  List<ScrumCard> scrumCardsList = fibonacciList;
 
-  static List<UiCard> standardList = [
-    UiCard(ScrumCard(cardValue: 1.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 2.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 3.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 5.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 8.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 13.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 20.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 40.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 100.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: '∞', description: 'test description')),
-    UiCard(ScrumCard(cardValue: '?', description: 'test description')),
-  ];
+  static List<ScrumCard> standardList = List.generate(ComplexityList.standardList.length, (int index) {
+    return ScrumCard(
+        key: ValueKey(
+          ComplexityList.standardList[index].complexityValue.toString(),
+        ),
+        scrumComplexity: ComplexityList.standardList[index]);
+  });
 
-  static List<UiCard> fibonacciList = [
-    UiCard(ScrumCard(cardValue: 1.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 2.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 3.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 5.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 8.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 13.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 21.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 34.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: 55.toString(), description: 'test description')),
-    UiCard(ScrumCard(cardValue: '∞', description: 'test description')),
-    UiCard(ScrumCard(cardValue: '?', description: 'test description')),
-  ];
+  static List<ScrumCard> fibonacciList = List.generate(
+      ComplexityList.fibonacciList.length,
+      (int index) => ScrumCard(
+          key: ValueKey(ComplexityList.fibonacciList[index].complexityValue.toString()),
+          scrumComplexity: ComplexityList.fibonacciList[index]));
 
-  static List<UiCard> tShirtList = [
-    UiCard(ScrumCard(cardValue: 'XS', description: 'test description')),
-    UiCard(ScrumCard(cardValue: 'S', description: 'test description')),
-    UiCard(ScrumCard(cardValue: 'M', description: 'test description')),
-    UiCard(ScrumCard(cardValue: 'L', description: 'test description')),
-    UiCard(ScrumCard(cardValue: 'XL', description: 'test description')),
-    UiCard(ScrumCard(cardValue: 'XXL', description: 'test description')),
-    UiCard(ScrumCard(cardValue: '∞', description: 'test description')),
-    UiCard(ScrumCard(cardValue: '?', description: 'test description')),
-  ];
+  static List<ScrumCard> tShirtList = List.generate(
+      ComplexityList.tShirtList.length,
+      (int index) => ScrumCard(
+          key: ValueKey(ComplexityList.tShirtList[index].complexityValue.toString()),
+          scrumComplexity: ComplexityList.tShirtList[index]));
 
   @action
   void setFibonacci() {
@@ -86,7 +69,7 @@ abstract class _CardsStore with Store {
   }
 
   @action
-  void selectCard(ScrumCard card) {
+  void selectCard(ScrumComplexity card) {
     isMenuCardSelected = true;
     selectedCard = card;
     print('selectedCard: $selectedCard');
