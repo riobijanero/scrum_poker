@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:scrum_poker/widgets/card_slider.dart';
 import './stores/cards_store.dart';
 import './widgets/card_stack.dart';
 import './widgets/card_grid.dart';
@@ -175,7 +176,7 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                                   : stackViewStyle.isSelected
                                       ? CardStack(
                                           currentPage: currentPage, cardsStore: _cardsStore, controller: controller)
-                                      : Text('slides'),
+                                      : CardSlider(),
                             ],
                           ),
                         ),
