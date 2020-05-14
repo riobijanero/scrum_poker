@@ -19,8 +19,8 @@ class _SelectionButtonState extends State<SelectionButton> {
     return GestureDetector(
       onTap: widget.onPress,
       child: AnimatedContainer(
-        curve: Curves.fastOutSlowIn,
-        duration: Duration(milliseconds: 350),
+        curve: Curves.easeOutQuint,
+        duration: Duration(milliseconds: 500),
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         decoration: BoxDecoration(
             color: widget.menuItem.isSelected ? Colors.blueAccent : Colors.transparent,
