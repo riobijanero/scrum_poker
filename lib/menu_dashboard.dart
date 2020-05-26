@@ -47,7 +47,12 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: dashboardDuration);
-    _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(_animationController);
+    final CurvedAnimation curvedAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+      reverseCurve: Curves.easeOut,
+    );
+    _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(curvedAnimation);
     gridViewStyle = MenuItem(menuItemTitle: 'Grid', isSelected: false);
     stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: true);
     slideViewStyle = MenuItem(menuItemTitle: 'Slides', isSelected: false);
