@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:scrum_poker/models/scrum_complexity.dart';
+import '../models/estimation_value.dart';
 import 'package:scrum_poker/widgets/card_detail_screen.dart';
-import 'package:scrum_poker/widgets/scrum_card.dart';
 import '../stores/cards_store.dart';
 
 class CardStack extends StatelessWidget {
@@ -19,23 +18,28 @@ class CardStack extends StatelessWidget {
   EstimationValue _currentComplexity;
   final CardsStore _cardsStore;
   final PageController controller;
-  List<ScrumCard> scrumCardList;
+  List<StackCard> cardStackList;
 
   @override
   Widget build(BuildContext context) {
-    scrumCardList = _cardsStore.scrumCardsList.reversed.toList();
+    cardStackList = List.generate(
+        _cardsStore.estimationValueList.length,
+        (int index) => StackCard(
+            key: ValueKey(_cardsStore.estimationValueList[index].value.toString()),
+            estimationValue: _cardsStore.estimationValueList[index])).reversed.toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Stack(
         children: <Widget>[
-          CardScrollWidget(currentPage, scrumCardList),
+          CardScrollWidget(currentPage, cardStackList),
           Positioned.fill(
             child: PageView.builder(
-              itemCount: _cardsStore.scrumCardsList.length,
+              itemCount: cardStackList.length,
               controller: controller,
               reverse: true,
               itemBuilder: (context, index) {
-                _currentComplexity = scrumCardList[index].scrumComplexity;
+                _currentComplexity = cardStackList[index].estimationValue;
                 return GestureDetector(
                   onTap: () => _onStackCardPressed(context, _currentComplexity),
                   child: Hero(
@@ -61,7 +65,7 @@ class CardStack extends StatelessWidget {
 
 class CardScrollWidget extends StatelessWidget {
   final double currentPage;
-  final List<ScrumCard> scrumCardList;
+  final List<StackCard> scrumCardList;
   static double padding = 20.0;
   static double verticalInset = 20.0;
 
@@ -124,7 +128,7 @@ class CardScrollWidget extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                                   child: Text(
-                                    scrumCardList[i].scrumComplexity.description,
+                                    scrumCardList[i].estimationValue.description,
                                   ),
                                 ),
                                 SizedBox(
@@ -158,6 +162,28 @@ class CardScrollWidget extends StatelessWidget {
           children: cardList,
         );
       }),
+    );
+  }
+}
+
+class StackCard extends StatelessWidget {
+  final EstimationValue estimationValue;
+
+  StackCard({
+    Key key,
+    this.estimationValue,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 0.3),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      margin: EdgeInsets.all(10),
+      elevation: 8,
+      child: Center(child: Text(estimationValue.value, style: Theme.of(context).textTheme.display1)),
     );
   }
 }

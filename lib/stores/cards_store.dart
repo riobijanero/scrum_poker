@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import '../models/estimation_values.dart';
-import '../models/scrum_complexity.dart';
+import '../models/estimation_value.dart';
 import '../widgets/scrum_card.dart';
 
 part 'cards_store.g.dart';
@@ -19,7 +19,7 @@ abstract class _CardsStore with Store {
   String cardDeckTitle = 'Fibnoacci';
 
   @observable
-  EstimationValue selectedComplexity;
+  EstimationValue selectedEstimationValue;
 
   @observable
   List<EstimationValue> estimationValueList = EstimationValues.fibonacciList;
@@ -32,20 +32,20 @@ abstract class _CardsStore with Store {
         key: ValueKey(
           EstimationValues.standardList[index].value.toString(),
         ),
-        scrumComplexity: EstimationValues.standardList[index]);
+        estimationValue: EstimationValues.standardList[index]);
   });
 
   static List<ScrumCard> fibonacciList = List.generate(
       EstimationValues.fibonacciList.length,
       (int index) => ScrumCard(
           key: ValueKey(EstimationValues.fibonacciList[index].value.toString()),
-          scrumComplexity: EstimationValues.fibonacciList[index]));
+          estimationValue: EstimationValues.fibonacciList[index]));
 
   static List<ScrumCard> tShirtList = List.generate(
       EstimationValues.tShirtList.length,
       (int index) => ScrumCard(
           key: ValueKey(EstimationValues.tShirtList[index].value.toString()),
-          scrumComplexity: EstimationValues.tShirtList[index]));
+          estimationValue: EstimationValues.tShirtList[index]));
 
   @action
   void setFibonacci() {
@@ -71,14 +71,14 @@ abstract class _CardsStore with Store {
   @action
   void resetCard() {
     isMenuCardSelected = false;
-    selectedComplexity = null;
+    selectedEstimationValue = null;
   }
 
   @action
   void selectComplexity(EstimationValue complexity) {
     isMenuCardSelected = true;
-    selectedComplexity = complexity;
-    print('selectedCard: $selectedComplexity');
+    selectedEstimationValue = complexity;
+    print('selectedCard: $selectedEstimationValue');
     print('isMenuCardSelected: $isMenuCardSelected');
   }
 

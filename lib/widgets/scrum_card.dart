@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../models/scrum_complexity.dart';
+import '../models/estimation_value.dart';
 
 class ScrumCard extends StatelessWidget {
-  final EstimationValue scrumComplexity;
+  final EstimationValue estimationValue;
   final bool isSelected;
 
   ScrumCard({
     Key key,
-    this.scrumComplexity,
+    this.estimationValue,
     this.isSelected = false,
   }) : super(key: key);
 
@@ -24,7 +24,7 @@ class ScrumCard extends StatelessWidget {
         elevation: 8,
         child: Center(
             child: Text(
-          scrumComplexity.value,
+          estimationValue.value,
           style: isSelected ? Theme.of(context).textTheme.display1 : Theme.of(context).textTheme.display2,
         )),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/scrum_complexity.dart';
+import '../models/estimation_value.dart';
 import './scrum_card.dart';
 
 class CardDetailScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class CardDetailScreen extends StatelessWidget {
             tag: dynamicTag,
             child: ScrumCard(
               key: ValueKey('.selectedCard.complexityValue.toString()'),
-              scrumComplexity: scrumComplexity,
+              estimationValue: scrumComplexity,
               isSelected: true,
             ),
           ),

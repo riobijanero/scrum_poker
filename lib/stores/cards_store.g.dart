@@ -63,16 +63,16 @@ mixin _$CardsStore on _CardsStore, Store {
   final _$selectedCardAtom = Atom(name: '_CardsStore.selectedCard');
 
   @override
-  EstimationValue get selectedComplexity {
+  EstimationValue get selectedEstimationValue {
     _$selectedCardAtom.context.enforceReadPolicy(_$selectedCardAtom);
     _$selectedCardAtom.reportObserved();
-    return super.selectedComplexity;
+    return super.selectedEstimationValue;
   }
 
   @override
-  set selectedComplexity(EstimationValue value) {
+  set selectedEstimationValue(EstimationValue value) {
     _$selectedCardAtom.context.conditionallyRunInAction(() {
-      super.selectedComplexity = value;
+      super.selectedEstimationValue = value;
       _$selectedCardAtom.reportChanged();
     }, _$selectedCardAtom, name: '${_$selectedCardAtom.name}_set');
   }
@@ -159,7 +159,7 @@ mixin _$CardsStore on _CardsStore, Store {
   @override
   String toString() {
     final string =
-        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedCard: ${selectedComplexity.toString()},scrumCardsList: ${scrumCardsList.toString()}';
+        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedCard: ${selectedEstimationValue.toString()},scrumCardsList: ${scrumCardsList.toString()}';
     return '{$string}';
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scrum_poker/models/estimation_value.dart';
 import 'package:scrum_poker/stores/cards_store.dart';
 import 'package:scrum_poker/widgets/scrum_card.dart';
 
@@ -11,7 +12,7 @@ class CardSlider extends StatefulWidget {
 class _CardSliderState extends State<CardSlider> {
   CardsStore _cardsStore;
   final PageController _pageController = PageController(viewportFraction: 0.8);
-  // List<ScrumCard> _slideList;
+  List<SliderCard> _sliderList;
   int currentPage = 0;
 
   @override
@@ -32,25 +33,29 @@ class _CardSliderState extends State<CardSlider> {
   @override
   void didChangeDependencies() {
     _cardsStore = Provider.of<CardsStore>(context);
-    // _slideList = _cardsStore.scrumCardsList;
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    List _slideList = _cardsStore.scrumCardsList.toList();
+    _sliderList = List.generate(
+        _cardsStore.estimationValueList.length,
+        (int index) => SliderCard(
+            key: ValueKey(_cardsStore.estimationValueList[index].value.toString()),
+            estimationValue: _cardsStore.estimationValueList[index]));
 
     return Expanded(
       child: PageView.builder(
         scrollDirection: Axis.horizontal,
         controller: _pageController,
-        itemCount: _slideList.length,
+        itemCount: _sliderList.length,
         itemBuilder: (context, int currentIdx) {
           if (currentIdx == 0) {
             return Text('index == 0');
-          } else if (_slideList.length >= currentIdx) {
+          } else if (_sliderList.length >= currentIdx) {
             bool _cardIsActive = currentIdx == currentPage;
-            return _buildCard(_slideList[currentIdx - 1], _cardIsActive);
+            return _buildCard(_sliderList[currentIdx - 1], _cardIsActive);
           }
         },
       ),
@@ -73,6 +78,35 @@ class _CardSliderState extends State<CardSlider> {
         boxShadow: [BoxShadow(color: Colors.black87, blurRadius: blur, offset: Offset(offset, offset))],
       ),
       child: card,
+    );
+  }
+}
+
+class SliderCard extends StatelessWidget {
+  final EstimationValue estimationValue;
+
+  SliderCard({
+    Key key,
+    this.estimationValue,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 4 / 5.5,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 0.3),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        margin: EdgeInsets.all(0),
+        elevation: 8,
+        child: Center(
+            child: Text(
+          estimationValue.value,
+          style: Theme.of(context).textTheme.display1,
+        )),
+      ),
     );
   }
 }
