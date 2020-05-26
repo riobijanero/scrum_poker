@@ -1,6 +1,6 @@
-class ScrumComplexity {
-  final dynamic complexityValue;
-  final String valueDescription;
+class EstimationValue {
+  final dynamic value;
+  final String description;
 
-  const ScrumComplexity({this.complexityValue, this.valueDescription});
+  const EstimationValue({this.value, this.description});
 }

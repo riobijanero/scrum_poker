@@ -23,8 +23,8 @@ class CardGrid extends StatelessWidget {
         children: cardsStore.scrumCardsList
             .map(
               (scrumCard) => GestureDetector(
-                  key: ValueKey<String>(scrumCard.scrumComplexity.complexityValue),
-                  child: Hero(tag: 'heroTag ${scrumCard.scrumComplexity.complexityValue}', child: scrumCard),
+                  key: ValueKey<String>(scrumCard.scrumComplexity.value),
+                  child: Hero(tag: 'heroTag ${scrumCard.scrumComplexity.value}', child: scrumCard),
                   onTap: () => _onGridCardPressed(context, scrumCard.scrumComplexity)),
             )
             .toList(),
@@ -32,7 +32,7 @@ class CardGrid extends StatelessWidget {
     );
   }
 
-  void _onGridCardPressed(BuildContext context, ScrumComplexity scrumComplexity) {
+  void _onGridCardPressed(BuildContext context, EstimationValue scrumComplexity) {
     cardsStore.selectComplexity(scrumComplexity);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return CardDetailScreen(scrumComplexity);

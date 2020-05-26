@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/scrum_complexity.dart';
 
 class ScrumCard extends StatelessWidget {
-  final ScrumComplexity scrumComplexity;
+  final EstimationValue scrumComplexity;
   final bool isSelected;
 
   ScrumCard({
@@ -24,7 +24,7 @@ class ScrumCard extends StatelessWidget {
         elevation: 8,
         child: Center(
             child: Text(
-          scrumComplexity.complexityValue,
+          scrumComplexity.value,
           style: isSelected ? Theme.of(context).textTheme.display1 : Theme.of(context).textTheme.display2,
         )),
       ),

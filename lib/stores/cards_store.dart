@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
-import '../models/complexity_list.dart';
+import '../models/estimation_values.dart';
 import '../models/scrum_complexity.dart';
 import '../widgets/scrum_card.dart';
 
@@ -19,47 +19,53 @@ abstract class _CardsStore with Store {
   String cardDeckTitle = 'Fibnoacci';
 
   @observable
-  ScrumComplexity selectedComplexity;
+  EstimationValue selectedComplexity;
+
+  @observable
+  List<EstimationValue> estimationValueList = EstimationValues.fibonacciList;
 
   @observable
   List<ScrumCard> scrumCardsList = fibonacciList;
 
-  static List<ScrumCard> standardList = List.generate(ComplexityList.standardList.length, (int index) {
+  static List<ScrumCard> standardList = List.generate(EstimationValues.standardList.length, (int index) {
     return ScrumCard(
         key: ValueKey(
-          ComplexityList.standardList[index].complexityValue.toString(),
+          EstimationValues.standardList[index].value.toString(),
         ),
-        scrumComplexity: ComplexityList.standardList[index]);
+        scrumComplexity: EstimationValues.standardList[index]);
   });
 
   static List<ScrumCard> fibonacciList = List.generate(
-      ComplexityList.fibonacciList.length,
+      EstimationValues.fibonacciList.length,
       (int index) => ScrumCard(
-          key: ValueKey(ComplexityList.fibonacciList[index].complexityValue.toString()),
-          scrumComplexity: ComplexityList.fibonacciList[index]));
+          key: ValueKey(EstimationValues.fibonacciList[index].value.toString()),
+          scrumComplexity: EstimationValues.fibonacciList[index]));
 
   static List<ScrumCard> tShirtList = List.generate(
-      ComplexityList.tShirtList.length,
+      EstimationValues.tShirtList.length,
       (int index) => ScrumCard(
-          key: ValueKey(ComplexityList.tShirtList[index].complexityValue.toString()),
-          scrumComplexity: ComplexityList.tShirtList[index]));
+          key: ValueKey(EstimationValues.tShirtList[index].value.toString()),
+          scrumComplexity: EstimationValues.tShirtList[index]));
 
   @action
   void setFibonacci() {
     scrumCardsList = fibonacciList;
     cardDeckTitle = 'Fibonacci';
+    estimationValueList = EstimationValues.fibonacciList;
   }
 
   @action
   void setStandardNumbers() {
     scrumCardsList = standardList;
     cardDeckTitle = 'Standard';
+    estimationValueList = EstimationValues.standardList;
   }
 
   @action
   void setTshirtSizes() {
     scrumCardsList = tShirtList;
     cardDeckTitle = 'T-Shirt';
+    estimationValueList = EstimationValues.tShirtList;
   }
 
   @action
@@ -69,7 +75,7 @@ abstract class _CardsStore with Store {
   }
 
   @action
-  void selectComplexity(ScrumComplexity complexity) {
+  void selectComplexity(EstimationValue complexity) {
     isMenuCardSelected = true;
     selectedComplexity = complexity;
     print('selectedCard: $selectedComplexity');

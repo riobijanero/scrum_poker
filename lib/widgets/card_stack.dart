@@ -16,7 +16,7 @@ class CardStack extends StatelessWidget {
         super(key: key);
 
   final double currentPage;
-  ScrumComplexity _currentComplexity;
+  EstimationValue _currentComplexity;
   final CardsStore _cardsStore;
   final PageController controller;
   List<ScrumCard> scrumCardList;
@@ -39,7 +39,7 @@ class CardStack extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => _onStackCardPressed(context, _currentComplexity),
                   child: Hero(
-                    tag: 'heroTag ${_currentComplexity.complexityValue}',
+                    tag: 'heroTag ${_currentComplexity.value}',
                     child: Container(color: Colors.transparent),
                   ),
                 );
@@ -51,7 +51,7 @@ class CardStack extends StatelessWidget {
     );
   }
 
-  void _onStackCardPressed(BuildContext context, ScrumComplexity scrumComplexity) {
+  void _onStackCardPressed(BuildContext context, EstimationValue scrumComplexity) {
     _cardsStore.selectComplexity(scrumComplexity);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return CardDetailScreen(scrumComplexity);
@@ -124,7 +124,7 @@ class CardScrollWidget extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                                   child: Text(
-                                    scrumCardList[i].scrumComplexity.valueDescription,
+                                    scrumCardList[i].scrumComplexity.description,
                                   ),
                                 ),
                                 SizedBox(

@@ -3,13 +3,13 @@ import '../models/scrum_complexity.dart';
 import './scrum_card.dart';
 
 class CardDetailScreen extends StatelessWidget {
-  final ScrumComplexity scrumComplexity;
+  final EstimationValue scrumComplexity;
 
   CardDetailScreen(this.scrumComplexity);
 
   @override
   Widget build(BuildContext context) {
-    String dynamicTag = 'heroTag ${scrumComplexity.complexityValue.toString()}';
+    String dynamicTag = 'heroTag ${scrumComplexity.value.toString()}';
     print(dynamicTag);
     return Scaffold(
       body: GestureDetector(

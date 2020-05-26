@@ -63,14 +63,14 @@ mixin _$CardsStore on _CardsStore, Store {
   final _$selectedCardAtom = Atom(name: '_CardsStore.selectedCard');
 
   @override
-  ScrumComplexity get selectedComplexity {
+  EstimationValue get selectedComplexity {
     _$selectedCardAtom.context.enforceReadPolicy(_$selectedCardAtom);
     _$selectedCardAtom.reportObserved();
     return super.selectedComplexity;
   }
 
   @override
-  set selectedComplexity(ScrumComplexity value) {
+  set selectedComplexity(EstimationValue value) {
     _$selectedCardAtom.context.conditionallyRunInAction(() {
       super.selectedComplexity = value;
       _$selectedCardAtom.reportChanged();
@@ -137,7 +137,7 @@ mixin _$CardsStore on _CardsStore, Store {
   }
 
   @override
-  void selectComplexity(ScrumComplexity card) {
+  void selectComplexity(EstimationValue card) {
     final _$actionInfo = _$_CardsStoreActionController.startAction();
     try {
       return super.selectComplexity(card);
