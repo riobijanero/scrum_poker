@@ -4,6 +4,7 @@ import '../models/estimation_value.dart';
 class ScrumCard extends StatelessWidget {
   final EstimationValue estimationValue;
   final bool isSelected;
+  static const num borderRadius = 20.0;
 
   ScrumCard({
     Key key,
@@ -14,19 +15,27 @@ class ScrumCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 4 / 5.5,
+      aspectRatio: 3.5 / 5.2,
       child: Card(
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: isSelected ? 0.3 : 0.1),
-          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(width: 0.2),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
-        margin: EdgeInsets.all(isSelected ? 40 : 10),
-        elevation: 8,
-        child: Center(
-            child: Text(
-          estimationValue.value,
-          style: isSelected ? Theme.of(context).textTheme.display1 : Theme.of(context).textTheme.display2,
-        )),
+        margin: EdgeInsets.all(30),
+        elevation: 10,
+        child: estimationValue.isImage
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: FittedBox(
+                  child: Image.asset(estimationValue.value),
+                  fit: BoxFit.cover,
+                ),
+              )
+            : Center(
+                child: Text(
+                estimationValue.value,
+                style: isSelected ? Theme.of(context).textTheme.display1 : Theme.of(context).textTheme.display2,
+              )),
       ),
     );
   }
