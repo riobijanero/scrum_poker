@@ -50,13 +50,10 @@ abstract class _CardsStore with Store {
   void selectComplexity(EstimationValue complexity) {
     isMenuCardSelected = true;
     selectedEstimationValue = complexity;
-    print('selectedCard: $selectedEstimationValue');
-    print('isMenuCardSelected: $isMenuCardSelected');
   }
 
   @action
   void toggleMenuStatus() {
     isMenuCollapsed = !isMenuCollapsed;
-    print('isMenuCollapsed: $isMenuCollapsed');
   }
 }
