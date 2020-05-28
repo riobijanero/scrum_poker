@@ -30,7 +30,8 @@ mixin _$CardsStore on _CardsStore, Store {
 
   @override
   bool get isMenuCardSelected {
-    _$isMenuCardSelectedAtom.context.enforceReadPolicy(_$isMenuCardSelectedAtom);
+    _$isMenuCardSelectedAtom.context
+        .enforceReadPolicy(_$isMenuCardSelectedAtom);
     _$isMenuCardSelectedAtom.reportObserved();
     return super.isMenuCardSelected;
   }
@@ -60,38 +61,44 @@ mixin _$CardsStore on _CardsStore, Store {
     }, _$cardDeckTitleAtom, name: '${_$cardDeckTitleAtom.name}_set');
   }
 
-  final _$selectedCardAtom = Atom(name: '_CardsStore.selectedCard');
+  final _$selectedEstimationValueAtom =
+      Atom(name: '_CardsStore.selectedEstimationValue');
 
   @override
   EstimationValue get selectedEstimationValue {
-    _$selectedCardAtom.context.enforceReadPolicy(_$selectedCardAtom);
-    _$selectedCardAtom.reportObserved();
+    _$selectedEstimationValueAtom.context
+        .enforceReadPolicy(_$selectedEstimationValueAtom);
+    _$selectedEstimationValueAtom.reportObserved();
     return super.selectedEstimationValue;
   }
 
   @override
   set selectedEstimationValue(EstimationValue value) {
-    _$selectedCardAtom.context.conditionallyRunInAction(() {
+    _$selectedEstimationValueAtom.context.conditionallyRunInAction(() {
       super.selectedEstimationValue = value;
-      _$selectedCardAtom.reportChanged();
-    }, _$selectedCardAtom, name: '${_$selectedCardAtom.name}_set');
+      _$selectedEstimationValueAtom.reportChanged();
+    }, _$selectedEstimationValueAtom,
+        name: '${_$selectedEstimationValueAtom.name}_set');
   }
 
-  final _$scrumCardsListAtom = Atom(name: '_CardsStore.scrumCardsList');
+  final _$estimationValueListAtom =
+      Atom(name: '_CardsStore.estimationValueList');
 
   @override
-  List<ScrumCard> get scrumCardsList {
-    _$scrumCardsListAtom.context.enforceReadPolicy(_$scrumCardsListAtom);
-    _$scrumCardsListAtom.reportObserved();
-    return super.scrumCardsList;
+  List<EstimationValue> get estimationValueList {
+    _$estimationValueListAtom.context
+        .enforceReadPolicy(_$estimationValueListAtom);
+    _$estimationValueListAtom.reportObserved();
+    return super.estimationValueList;
   }
 
   @override
-  set scrumCardsList(List<ScrumCard> value) {
-    _$scrumCardsListAtom.context.conditionallyRunInAction(() {
-      super.scrumCardsList = value;
-      _$scrumCardsListAtom.reportChanged();
-    }, _$scrumCardsListAtom, name: '${_$scrumCardsListAtom.name}_set');
+  set estimationValueList(List<EstimationValue> value) {
+    _$estimationValueListAtom.context.conditionallyRunInAction(() {
+      super.estimationValueList = value;
+      _$estimationValueListAtom.reportChanged();
+    }, _$estimationValueListAtom,
+        name: '${_$estimationValueListAtom.name}_set');
   }
 
   final _$_CardsStoreActionController = ActionController(name: '_CardsStore');
@@ -137,10 +144,10 @@ mixin _$CardsStore on _CardsStore, Store {
   }
 
   @override
-  void selectComplexity(EstimationValue card) {
+  void selectComplexity(EstimationValue complexity) {
     final _$actionInfo = _$_CardsStoreActionController.startAction();
     try {
-      return super.selectComplexity(card);
+      return super.selectComplexity(complexity);
     } finally {
       _$_CardsStoreActionController.endAction(_$actionInfo);
     }
@@ -159,7 +166,7 @@ mixin _$CardsStore on _CardsStore, Store {
   @override
   String toString() {
     final string =
-        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedCard: ${selectedEstimationValue.toString()},scrumCardsList: ${scrumCardsList.toString()}';
+        'isMenuCollapsed: ${isMenuCollapsed.toString()},isMenuCardSelected: ${isMenuCardSelected.toString()},cardDeckTitle: ${cardDeckTitle.toString()},selectedEstimationValue: ${selectedEstimationValue.toString()},estimationValueList: ${estimationValueList.toString()}';
     return '{$string}';
   }
 }
