@@ -1,7 +1,25 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppTheme {
   AppTheme._();
+
+  static int colorShade = 50;
+
+  static List<Color> lightColorsList = [
+    Colors.blue[colorShade],
+    Colors.red[colorShade],
+    Colors.purple[colorShade],
+    Colors.yellow[colorShade],
+    Colors.green[colorShade]
+  ];
+
+  static getRandomColor() {
+    final random = Random();
+    var i = random.nextInt(lightColorsList.length);
+    return lightColorsList[i];
+  }
 
   static Color _lightIconColor = Colors.blueAccent.shade200;
   static Color _darkIconColor = Colors.yellowAccent;
