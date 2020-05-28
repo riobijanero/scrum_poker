@@ -53,8 +53,8 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
       reverseCurve: Curves.easeOut,
     );
     _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(curvedAnimation);
-    gridViewStyle = MenuItem(menuItemTitle: 'Grid', isSelected: false);
-    stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: true);
+    gridViewStyle = MenuItem(menuItemTitle: 'Grid', isSelected: true);
+    stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: false);
     slideViewStyle = MenuItem(menuItemTitle: 'Slides', isSelected: false);
     viewStyleList = [gridViewStyle, stackViewStyle, slideViewStyle];
     super.initState();
@@ -63,7 +63,7 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   @override
   void didChangeDependencies() {
     _cardsStore = Provider.of<CardsStore>(context);
-    currentPage = _cardsStore.scrumCardsList.length - 1.0;
+    currentPage = _cardsStore.estimationValueList.length - 1.0;
     super.didChangeDependencies();
   }
 
@@ -104,7 +104,7 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    controller = PageController(initialPage: _cardsStore.scrumCardsList.length - 1);
+    controller = PageController(initialPage: _cardsStore.estimationValueList.length - 1);
     controller.addListener(() {
       setState(() {
         currentPage = controller.page;
@@ -166,12 +166,12 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                                       onPress: () => onCardViewStyleChosen(gridViewStyle),
                                     ),
                                     SelectionButton(
-                                      menuItem: stackViewStyle,
-                                      onPress: () => onCardViewStyleChosen(stackViewStyle),
-                                    ),
-                                    SelectionButton(
                                       menuItem: slideViewStyle,
                                       onPress: () => onCardViewStyleChosen(slideViewStyle),
+                                    ),
+                                    SelectionButton(
+                                      menuItem: stackViewStyle,
+                                      onPress: () => onCardViewStyleChosen(stackViewStyle),
                                     ),
                                   ],
                                 ),
