@@ -30,10 +30,10 @@ class CardGrid extends StatelessWidget {
         crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
         children: gridCardList
             .map(
-              (scrumCard) => GestureDetector(
-                  key: ValueKey<String>(scrumCard.estimationValue.value),
-                  child: Hero(tag: 'heroTag ${scrumCard.estimationValue.value}', child: scrumCard),
-                  onTap: () => _onGridCardPressed(context, scrumCard.estimationValue)),
+              (gridCard) => GestureDetector(
+                  key: ValueKey<String>(gridCard.estimationValue.value),
+                  child: Hero(tag: 'heroTag ${gridCard.estimationValue.value}', child: gridCard),
+                  onTap: () => _onGridCardPressed(context, gridCard.estimationValue)),
             )
             .toList(),
       ),
@@ -50,6 +50,7 @@ class CardGrid extends StatelessWidget {
 
 class GridCard extends StatelessWidget {
   final EstimationValue estimationValue;
+  static const num borderRadius = 20.0;
 
   GridCard({
     Key key,
@@ -58,18 +59,48 @@ class GridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(width: 0.1),
-        borderRadius: BorderRadius.circular(20),
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+        borderRadius: BorderRadius.circular(borderRadius),
+        boxShadow: [BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(2, 2))],
       ),
       margin: EdgeInsets.all(10),
-      elevation: 8,
-      child: Center(
-          child: Text(
-        estimationValue.value,
-        style: Theme.of(context).textTheme.display2,
-      )),
+      child: estimationValue.isImage
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius),
+              child: FittedBox(
+                child: Image.asset(estimationValue.value),
+                fit: BoxFit.cover,
+              ),
+            )
+          : Center(
+              child: Text(
+              estimationValue.value,
+              style: Theme.of(context).textTheme.display2,
+            )),
     );
+
+    // return Card(
+    //   shape: RoundedRectangleBorder(
+    //     side: BorderSide(width: 0.1),
+    //     borderRadius: BorderRadius.circular(borderRadius),
+    //   ),
+    //   margin: EdgeInsets.all(10),
+    //   elevation: 8,
+    //   child: estimationValue.isImage
+    //       ? ClipRRect(
+    //           borderRadius: BorderRadius.circular(borderRadius),
+    //           child: FittedBox(
+    //             child: Image.asset(estimationValue.value),
+    //             fit: BoxFit.cover,
+    //           ),
+    //         )
+    //       : Center(
+    //           child: Text(
+    //           estimationValue.value,
+    //           style: Theme.of(context).textTheme.display2,
+    //         )),
+    // );
   }
 }
