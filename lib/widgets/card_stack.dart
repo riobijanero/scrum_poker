@@ -168,6 +168,7 @@ class CardScrollWidget extends StatelessWidget {
 
 class StackCard extends StatelessWidget {
   final EstimationValue estimationValue;
+  static const num borderRadius = 20.0;
 
   StackCard({
     Key key,
@@ -179,11 +180,21 @@ class StackCard extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(width: 0.3),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       margin: EdgeInsets.all(10),
       elevation: 8,
-      child: Center(child: Text(estimationValue.value, style: Theme.of(context).textTheme.display1)),
+      child: estimationValue.isImage
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius),
+              child: FittedBox(
+                child: Image.asset(estimationValue.value),
+                fit: BoxFit.cover,
+              ),
+            )
+          : Center(
+              child: Text(estimationValue.value, style: Theme.of(context).textTheme.display1),
+            ),
     );
   }
 }
