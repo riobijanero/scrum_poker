@@ -122,8 +122,6 @@ class CardScrollWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 10.0, bottom: 25),
                             child: Wrap(
                               direction: Axis.vertical,
-                              // mainAxisSize: MainAxisSize.min,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0),

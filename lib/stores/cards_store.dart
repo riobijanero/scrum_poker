@@ -1,7 +1,4 @@
-// import 'package:flutter/foundation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-import 'package:scrum_poker/widgets/scrum_card.dart';
 import '../models/estimation_values.dart';
 import '../models/estimation_value.dart';
 

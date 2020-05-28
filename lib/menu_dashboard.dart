@@ -9,8 +9,6 @@ import './widgets/menu.dart';
 import './models/menu_item.dart';
 import './widgets/selection_button.dart';
 
-final Color backgroundColor = Color(0xFF4A4A58);
-
 double screenWidth, screenHeight;
 const Duration dashboardDuration = const Duration(milliseconds: 350);
 const BorderRadius borderRadius = const BorderRadius.all(Radius.circular(40));
@@ -125,8 +123,6 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
           scale: _scaleAnimation,
           child: Material(
             key: ValueKey<String>('mainpage'),
-            // animationDuration: dashboardDuration,
-            // borderRadius: borderRadius,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(40),
               side: BorderSide(width: 0.3),
@@ -177,10 +173,18 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                                 ),
                               ),
                               gridViewStyle.isSelected
-                                  ? Expanded(child: CardGrid(cardsStore: _cardsStore, orientation: orientation))
+                                  ? Expanded(
+                                      child: CardGrid(
+                                        cardsStore: _cardsStore,
+                                        orientation: orientation,
+                                      ),
+                                    )
                                   : stackViewStyle.isSelected
                                       ? CardStack(
-                                          currentPage: currentPage, cardsStore: _cardsStore, controller: controller)
+                                          currentPage: currentPage,
+                                          cardsStore: _cardsStore,
+                                          controller: controller,
+                                        )
                                       : CardSlider(),
                             ],
                           ),
