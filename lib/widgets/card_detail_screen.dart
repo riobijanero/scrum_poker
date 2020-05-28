@@ -10,7 +10,6 @@ class CardDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String dynamicTag = 'heroTag ${scrumComplexity.value.toString()}';
-    print(dynamicTag);
     return Scaffold(
       body: GestureDetector(
         child: Center(
