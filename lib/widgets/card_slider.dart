@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrum_poker/models/estimation_value.dart';
 import 'package:scrum_poker/stores/cards_store.dart';
-import 'package:scrum_poker/widgets/scrum_card.dart';
+import 'package:scrum_poker/widgets/card_detail_screen.dart';
 
 class CardSlider extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class CardSlider extends StatefulWidget {
 class _CardSliderState extends State<CardSlider> {
   CardsStore _cardsStore;
   final PageController _pageController = PageController(viewportFraction: 0.8);
-  List<SliderCard> _sliderList;
+  List<EstimationValue> _sliderList;
   int currentPage = 0;
 
   @override
@@ -39,11 +39,7 @@ class _CardSliderState extends State<CardSlider> {
 
   @override
   Widget build(BuildContext context) {
-    _sliderList = List.generate(
-        _cardsStore.estimationValueList.length,
-        (int index) => SliderCard(
-            key: ValueKey(_cardsStore.estimationValueList[index].value.toString()),
-            estimationValue: _cardsStore.estimationValueList[index]));
+    _sliderList = _cardsStore.estimationValueList;
 
     return Expanded(
       child: PageView.builder(
@@ -51,62 +47,69 @@ class _CardSliderState extends State<CardSlider> {
         controller: _pageController,
         itemCount: _sliderList.length,
         itemBuilder: (context, int currentIdx) {
-          if (currentIdx == 0) {
-            return Text('index == 0');
-          } else if (_sliderList.length >= currentIdx) {
+          if (_sliderList.length >= currentIdx) {
             bool _cardIsActive = currentIdx == currentPage;
-            return _buildCard(_sliderList[currentIdx - 1], _cardIsActive);
+            return SliderCard(_sliderList[currentIdx], _cardIsActive, _cardsStore);
           }
         },
       ),
-    );
-  }
-
-  _buildCard(Widget card, bool cardIsActive) {
-    final double blur = cardIsActive ? 30 : 0;
-    final double offset = cardIsActive ? 20 : 0;
-    final double topMargin = cardIsActive ? 100 : 200;
-    final double bottomMargin = 50;
-    final double rightMargin = 30;
-
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeOutQuint,
-      margin: EdgeInsets.only(top: topMargin, bottom: bottomMargin, right: rightMargin),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black87, blurRadius: blur, offset: Offset(offset, offset))],
-      ),
-      child: card,
     );
   }
 }
 
 class SliderCard extends StatelessWidget {
   final EstimationValue estimationValue;
+  final bool cardIsActive;
+  final CardsStore cardsStore;
+  static const num borderRadius = 20.0;
 
-  SliderCard({
-    Key key,
-    this.estimationValue,
-  }) : super(key: key);
+  SliderCard(this.estimationValue, this.cardIsActive, this.cardsStore);
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 4 / 5.5,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 0.3),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        margin: EdgeInsets.all(0),
-        elevation: 8,
-        child: Center(
-            child: Text(
-          estimationValue.value,
-          style: Theme.of(context).textTheme.display1,
-        )),
-      ),
-    );
+    final double shadowBlur = cardIsActive ? 30 : 0;
+    final double shadowOffset = cardIsActive ? 20 : 0;
+    final double topMargin = cardIsActive ? 80 : 160;
+    final double bottomMargin = 50;
+    final double rightMargin = 30;
+
+    return GestureDetector(
+        onTap: () => _onSliderCardPressed(context, estimationValue),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeOutQuint,
+          margin: EdgeInsets.only(top: topMargin, bottom: bottomMargin, right: rightMargin),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: [
+              BoxShadow(color: Colors.black54, blurRadius: shadowBlur, offset: Offset(shadowOffset, shadowOffset))
+            ],
+          ),
+          child: Hero(
+            tag: 'heroTag ${estimationValue.value}',
+            child: estimationValue.isImage
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    child: FittedBox(
+                      child: Image.asset(estimationValue.value),
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      estimationValue.value,
+                      style: Theme.of(context).textTheme.display1,
+                    ),
+                  ),
+          ),
+        ));
+  }
+
+  void _onSliderCardPressed(BuildContext context, EstimationValue scrumComplexity) {
+    cardsStore.selectComplexity(scrumComplexity);
+    Navigator.push(context, MaterialPageRoute(builder: (_) {
+      return CardDetailScreen(scrumComplexity);
+    }));
   }
 }
