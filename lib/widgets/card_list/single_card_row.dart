@@ -58,9 +58,10 @@ class RowCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
           borderRadius: BorderRadius.circular(_borderRadius),
-          // boxShadow: [
-          //   BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(1, 1))
-          // ],
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black38, blurRadius: 2, offset: Offset(0.5, 0.5))
+          ],
         ),
         child: estimationValue.isImage
             ? ClipRRect(

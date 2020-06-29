@@ -153,7 +153,7 @@ class _CardListState extends State<CardList> with TickerProviderStateMixin {
     super.dispose();
     _slideUpAnimationController.dispose();
     mounted = false;
-    _removeAllItems();
+    // _removeAllItems();
     _initialList.clear();
   }
 }
