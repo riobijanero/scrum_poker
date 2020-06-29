@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import './widgets/card_list/card_list.dart';
-import './widgets/card_slider.dart';
+import './widgets/card_slider/card_slider.dart';
 import './stores/cards_store.dart';
 import './widgets/card_stack.dart';
 import './widgets/card_grid.dart';
