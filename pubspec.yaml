@@ -33,6 +33,7 @@ dev_dependencies:
   mobx_codegen: 
   provider:
 
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -46,9 +47,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/nathan-dumlao-nBJHO6wmRWw-unsplash.jpg
-    - assets/images/jeremy-yap-jn-HaGWe4yw-unsplash.jpg
-    - assets/images/olivier-collet-935jH5zSqD8-unsplash.png
+    - assets/images/
 
   #  - images/a_dot_ham.jpeg
 
