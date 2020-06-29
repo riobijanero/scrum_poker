@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:scrum_poker/widgets/card_slider.dart';
+import './widgets/card_list/card_list.dart';
+import './widgets/card_slider.dart';
 import './stores/cards_store.dart';
 import './widgets/card_stack.dart';
 import './widgets/card_grid.dart';
@@ -12,7 +13,8 @@ import './widgets/selection_button.dart';
 double screenWidth, screenHeight;
 const Duration dashboardDuration = const Duration(milliseconds: 350);
 const BorderRadius borderRadius = const BorderRadius.all(Radius.circular(40));
-const BorderRadius borderRadiusCards = const BorderRadius.all(Radius.circular(20));
+const BorderRadius borderRadiusCards =
+    const BorderRadius.all(Radius.circular(20));
 
 class MenuDashboard extends StatelessWidget {
   @override
@@ -31,7 +33,8 @@ class CardsDeck extends StatefulWidget {
   _CardsDeckState createState() => _CardsDeckState();
 }
 
-class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMixin {
+class _CardsDeckState extends State<CardsDeck>
+    with SingleTickerProviderStateMixin {
   CardsStore _cardsStore;
   AnimationController _animationController;
   Animation<double> _scaleAnimation;
@@ -40,21 +43,27 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
   MenuItem gridViewStyle;
   MenuItem stackViewStyle;
   MenuItem slideViewStyle;
+  MenuItem listStyle;
+
   List<MenuItem> viewStyleList;
 
   @override
   void initState() {
-    _animationController = AnimationController(vsync: this, duration: dashboardDuration);
+    _animationController =
+        AnimationController(vsync: this, duration: dashboardDuration);
     final CurvedAnimation curvedAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeIn,
       reverseCurve: Curves.easeOut,
     );
-    _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(curvedAnimation);
+    _scaleAnimation =
+        Tween<double>(begin: 1, end: 0.6).animate(curvedAnimation);
     gridViewStyle = MenuItem(menuItemTitle: 'Grid', isSelected: true);
     stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: false);
     slideViewStyle = MenuItem(menuItemTitle: 'Slides', isSelected: false);
-    viewStyleList = [gridViewStyle, stackViewStyle, slideViewStyle];
+
+    listStyle = MenuItem(menuItemTitle: 'List', isSelected: false);
+    viewStyleList = [gridViewStyle, stackViewStyle, slideViewStyle, listStyle];
     super.initState();
   }
 
@@ -102,7 +111,8 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    controller = PageController(initialPage: _cardsStore.estimationValueList.length - 1);
+    controller =
+        PageController(initialPage: _cardsStore.estimationValueList.length - 1);
     controller.addListener(() {
       setState(() {
         currentPage = controller.page;
@@ -140,7 +150,9 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                       appBar: AppBar(
                         elevation: 0.0,
                         leading: IconButton(
-                          icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: _animationController),
+                          icon: AnimatedIcon(
+                              icon: AnimatedIcons.menu_arrow,
+                              progress: _animationController),
                           onPressed: _onMenuIconPressed,
                         ),
                         title: Text(
@@ -153,21 +165,31 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                           child: Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 50.0, vertical: 10),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     SelectionButton(
                                       menuItem: gridViewStyle,
-                                      onPress: () => onCardViewStyleChosen(gridViewStyle),
+                                      onPress: () =>
+                                          onCardViewStyleChosen(gridViewStyle),
                                     ),
                                     SelectionButton(
                                       menuItem: slideViewStyle,
-                                      onPress: () => onCardViewStyleChosen(slideViewStyle),
+                                      onPress: () =>
+                                          onCardViewStyleChosen(slideViewStyle),
                                     ),
                                     SelectionButton(
                                       menuItem: stackViewStyle,
-                                      onPress: () => onCardViewStyleChosen(stackViewStyle),
+                                      onPress: () =>
+                                          onCardViewStyleChosen(stackViewStyle),
+                                    ),
+                                    SelectionButton(
+                                      menuItem: listStyle,
+                                      onPress: () =>
+                                          onCardViewStyleChosen(listStyle),
                                     ),
                                   ],
                                 ),
@@ -185,7 +207,9 @@ class _CardsDeckState extends State<CardsDeck> with SingleTickerProviderStateMix
                                           cardsStore: _cardsStore,
                                           controller: controller,
                                         )
-                                      : CardSlider(),
+                                      : listStyle.isSelected
+                                          ? CardList()
+                                          : CardSlider(),
                             ],
                           ),
                         ),
