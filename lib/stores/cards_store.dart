@@ -8,6 +8,9 @@ class CardsStore = _CardsStore with _$CardsStore;
 
 abstract class _CardsStore with Store {
   @observable
+  bool hasListViewAnimatedAlready = false;
+
+  @observable
   bool isMenuCollapsed = true;
 
   @observable
