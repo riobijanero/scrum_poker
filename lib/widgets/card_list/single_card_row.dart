@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scrum_poker/app_theme.dart';
 
 import '../../models/estimation_value.dart';
 
@@ -12,8 +13,13 @@ class SingleCardRow extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-          color: Colors.blueAccent,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+        color: Theme.of(context).colorScheme.surface, //Colors.grey[200],
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey[400], blurRadius: 3, offset: Offset(1, 1))
+        ],
+      ),
       width: double.infinity,
       margin: EdgeInsets.all(8),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -21,7 +27,11 @@ class SingleCardRow extends StatelessWidget {
         children: <Widget>[
           RowCard(estimationValue: estimationValue),
           SizedBox(width: 20),
-          Expanded(child: Text(estimationValue.description))
+          Expanded(
+              child: Text(
+            estimationValue.description,
+            style: Theme.of(context).textTheme.bodyText1,
+          ))
         ],
       ),
     );
@@ -39,31 +49,33 @@ class RowCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      width: 60,
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
-        borderRadius: BorderRadius.circular(_borderRadius),
-        boxShadow: [
-          BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(2, 2))
-        ],
+    return Hero(
+      tag: 'heroTag ${estimationValue.value}',
+      child: Container(
+        height: 70,
+        width: 65,
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+          borderRadius: BorderRadius.circular(_borderRadius),
+          // boxShadow: [
+          //   BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(1, 1))
+          // ],
+        ),
+        child: estimationValue.isImage
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(_borderRadius),
+                child: FittedBox(
+                  child: Image.asset(estimationValue.value),
+                  fit: BoxFit.cover,
+                ),
+              )
+            : Center(
+                child: Text(
+                estimationValue.value,
+                style: Theme.of(context).textTheme.headline6,
+              )),
       ),
-      child: estimationValue.isImage
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(_borderRadius),
-              child: FittedBox(
-                child: Image.asset(estimationValue.value),
-                fit: BoxFit.cover,
-              ),
-            )
-          : Center(
-              child: Text(
-              estimationValue.value,
-              style: TextStyle(fontSize: 20),
-              // style: Theme.of(context).textTheme.display2,
-            )),
     );
   }
 }
