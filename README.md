@@ -5,15 +5,6 @@ An app that can be used for estimating effort or complexity
 
 ## Core features
 
-- Built in card decs
- - Fibonacci
- - Standard
- - T-Shirt Sizes
- - dark Theme
- - beautiful animations
-
-
-
 <table>
     <tr>
         <td align=center><a href="grid view"><img src="screenshots/grid_view.png" /></br>Grid view</a></td>
