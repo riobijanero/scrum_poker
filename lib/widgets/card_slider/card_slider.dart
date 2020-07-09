@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scrum_poker/app_state.dart';
 
 import '../../models/estimation_value.dart';
 import '../../stores/cards_store.dart';
 import '../card_detail_screen.dart';
-import './card_slider_description.dart';
 
 class CardSlider extends StatefulWidget {
   @override
@@ -110,7 +110,20 @@ class SliderCard extends StatelessWidget {
           margin: EdgeInsets.only(
               top: topMargin, bottom: bottomMargin, right: rightMargin),
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+            // color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.3, 1],
+                colors: Provider.of<AppState>(context).isDarkMode
+                    ? [
+                        Theme.of(context).accentColor,
+                        Theme.of(context).splashColor,
+                      ]
+                    : [
+                        Theme.of(context).cardColor,
+                        Theme.of(context).cardColor,
+                      ]),
             borderRadius: BorderRadius.circular(borderRadius),
             boxShadow: [
               BoxShadow(
@@ -123,14 +136,14 @@ class SliderCard extends StatelessWidget {
             tag: 'heroTag ${estimationValue.value}',
             child: Stack(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SliderCardDescription(
-                      estimationValue: estimationValue,
-                      borderRadius: borderRadius,
-                      shadowBlur: shadowBlur,
-                      shadowOffset: shadowOffset),
-                ),
+                // Align(
+                //   alignment: Alignment.topCenter,
+                //   child: SliderCardDescription(
+                //       estimationValue: estimationValue,
+                //       borderRadius: borderRadius,
+                //       shadowBlur: shadowBlur,
+                //       shadowOffset: shadowOffset),
+                // ),
                 Center(
                   child: estimationValue.isImage
                       ? FittedBox(
