@@ -5,6 +5,7 @@ import '../models/estimation_value.dart';
 import 'package:scrum_poker/widgets/card_detail_screen.dart';
 import '../stores/cards_store.dart';
 
+// ignore: must_be_immutable
 class CardStack extends StatelessWidget {
   CardStack({
     Key key,
@@ -23,10 +24,13 @@ class CardStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cardStackList = List.generate(
-        _cardsStore.estimationValueList.length,
-        (int index) => StackCard(
-            key: ValueKey(_cardsStore.estimationValueList[index].value.toString()),
-            estimationValue: _cardsStore.estimationValueList[index])).reversed.toList();
+            _cardsStore.estimationValueList.length,
+            (int index) => StackCard(
+                key: ValueKey(
+                    _cardsStore.estimationValueList[index].value.toString()),
+                estimationValue: _cardsStore.estimationValueList[index]))
+        .reversed
+        .toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40.0),
@@ -55,7 +59,8 @@ class CardStack extends StatelessWidget {
     );
   }
 
-  void _onStackCardPressed(BuildContext context, EstimationValue scrumComplexity) {
+  void _onStackCardPressed(
+      BuildContext context, EstimationValue scrumComplexity) {
     _cardsStore.selectComplexity(scrumComplexity);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return CardDetailScreen(scrumComplexity);
@@ -97,7 +102,11 @@ class CardScrollWidget extends StatelessWidget {
           num delta = i - currentPage;
           bool isOnRight = delta > 0;
 
-          double start = padding + max(primaryCardLeft - horizontalInset * -delta * (isOnRight ? 15 : 1), 0.0);
+          double start = padding +
+              max(
+                  primaryCardLeft -
+                      horizontalInset * -delta * (isOnRight ? 15 : 1),
+                  0.0);
 
           Positioned cardItem = Positioned.directional(
             top: padding + verticalInset * max(-delta, 0.0),
@@ -115,39 +124,50 @@ class CardScrollWidget extends StatelessWidget {
                     fit: StackFit.expand,
                     children: <Widget>[
                       scrumCardList[i],
-                      if (i >= currentPage - 1)
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10.0, bottom: 25),
-                            child: Wrap(
-                              direction: Axis.vertical,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                  child: Text(
-                                    scrumCardList[i].estimationValue.description,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0, bottom: 22.0),
-                                  child: GestureDetector(
-                                    onTap: () => print('selected'),
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.blueAccent, borderRadius: BorderRadius.circular(20.0)),
-                                      child: Text("modify description", style: TextStyle(color: Colors.white)),
+                      (i >= currentPage - 1)
+                          ? Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, bottom: 25),
+                                child: Wrap(
+                                  direction: Axis.vertical,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Text(
+                                        scrumCardList[i]
+                                            .estimationValue
+                                            .description,
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                                    SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 12.0, bottom: 22.0),
+                                      child: GestureDetector(
+                                        onTap: () => print('selected'),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15.0, vertical: 6.0),
+                                          decoration: BoxDecoration(
+                                              color: Colors.blueAccent,
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                          child: Text("modify description",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : null
                     ],
                   ),
                 ),
@@ -191,7 +211,8 @@ class StackCard extends StatelessWidget {
               ),
             )
           : Center(
-              child: Text(estimationValue.value, style: Theme.of(context).textTheme.display1),
+              child: Text(estimationValue.value,
+                  style: Theme.of(context).textTheme.headline4),
             ),
     );
   }

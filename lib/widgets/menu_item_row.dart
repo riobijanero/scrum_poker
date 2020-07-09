@@ -18,7 +18,11 @@ class MenutItemRow extends StatelessWidget {
               child: Icon(menuItem.menuItemicon),
             ),
             Text(menuItem.menuItemTitle,
-                style: menuItem.isSelected ? TextStyle(color: Theme.of(context).iconTheme.color) : null),
+                style: TextStyle(
+                    fontSize: 24,
+                    color: menuItem.isSelected
+                        ? Theme.of(context).iconTheme.color
+                        : null)),
           ],
         ),
       ),

@@ -14,6 +14,6 @@ An app that can be used for estimating effort or complexity
 
 ![](screenshots/grid_view.png)
 ![](screenshots/single_card.png)
-![](screenshots/main_menu_theme.png)
-![](screenshots/dark_theme.png)
-![](screenshots/light_theme.png)
+![](screenshots/main_menu_theme.gif)
+![](screenshots/dark_theme.gif)
+![](screenshots/light_theme.gif)
