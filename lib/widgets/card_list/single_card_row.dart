@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scrum_poker/app_theme.dart';
+import 'package:provider/provider.dart';
 
+import '../../app_state.dart';
 import '../../models/estimation_value.dart';
 
 class SingleCardRow extends StatelessWidget {
@@ -13,7 +14,7 @@ class SingleCardRow extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface, //Colors.grey[200],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
@@ -49,14 +50,25 @@ class RowCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<AppState>(context).isDarkMode;
     return Hero(
       tag: 'heroTag ${estimationValue.value}',
       child: Container(
         height: 70,
         width: 65,
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+          // color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.2, 1],
+              colors: isDarkMode
+                  ? [
+                      Theme.of(context).accentColor,
+                      Theme.of(context).splashColor,
+                    ]
+                  : [Theme.of(context).cardColor, Theme.of(context).cardColor]),
           borderRadius: BorderRadius.circular(_borderRadius),
           boxShadow: [
             BoxShadow(

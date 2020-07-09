@@ -17,7 +17,6 @@ class _CardListState extends State<CardList> with TickerProviderStateMixin {
   Duration _slideUpDuration = Duration(milliseconds: 400);
   bool mounted = true;
 
-  List<EstimationValue> _estimationValueList;
   CardsStore _cardsStore;
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
@@ -41,7 +40,6 @@ class _CardListState extends State<CardList> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     _cardsStore = Provider.of<CardsStore>(context);
-    _estimationValueList = _cardsStore.estimationValueList;
     super.didChangeDependencies();
   }
 
