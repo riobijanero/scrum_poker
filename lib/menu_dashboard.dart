@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import './widgets/card_list/card_list.dart';
 import './widgets/card_slider/card_slider.dart';
 import './stores/cards_store.dart';
-import './widgets/card_stack.dart';
 import './widgets/card_grid.dart';
 import './widgets/menu.dart';
 import './models/menu_item.dart';
@@ -41,7 +40,7 @@ class _CardsDeckState extends State<CardsDeck>
   PageController controller;
   double currentPage;
   MenuItem gridViewStyle;
-  MenuItem stackViewStyle;
+  // MenuItem stackViewStyle;
   MenuItem slideViewStyle;
   MenuItem listStyle;
 
@@ -59,11 +58,16 @@ class _CardsDeckState extends State<CardsDeck>
     _scaleAnimation =
         Tween<double>(begin: 1, end: 0.6).animate(curvedAnimation);
     gridViewStyle = MenuItem(menuItemTitle: 'Grid', isSelected: true);
-    stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: false);
+    // stackViewStyle = MenuItem(menuItemTitle: 'Stack', isSelected: false);
     slideViewStyle = MenuItem(menuItemTitle: 'Slides', isSelected: false);
 
     listStyle = MenuItem(menuItemTitle: 'List', isSelected: false);
-    viewStyleList = [gridViewStyle, stackViewStyle, slideViewStyle, listStyle];
+    viewStyleList = [
+      gridViewStyle,
+      // stackViewStyle,
+      slideViewStyle,
+      listStyle,
+    ];
     super.initState();
   }
 
@@ -181,11 +185,11 @@ class _CardsDeckState extends State<CardsDeck>
                                       onPress: () =>
                                           onCardViewStyleChosen(slideViewStyle),
                                     ),
-                                    SelectionButton(
-                                      menuItem: stackViewStyle,
-                                      onPress: () =>
-                                          onCardViewStyleChosen(stackViewStyle),
-                                    ),
+                                    // SelectionButton(
+                                    //   menuItem: stackViewStyle,
+                                    //   onPress: () =>
+                                    //       onCardViewStyleChosen(stackViewStyle),
+                                    // ),
                                     SelectionButton(
                                       menuItem: listStyle,
                                       onPress: () =>
@@ -201,15 +205,17 @@ class _CardsDeckState extends State<CardsDeck>
                                         orientation: orientation,
                                       ),
                                     )
-                                  : stackViewStyle.isSelected
-                                      ? CardStack(
-                                          currentPage: currentPage,
-                                          cardsStore: _cardsStore,
-                                          controller: controller,
-                                        )
-                                      : listStyle.isSelected
-                                          ? CardList()
-                                          : CardSlider(),
+                                  :
+                                  // stackViewStyle.isSelected
+                                  //     ? CardStack(
+                                  //         currentPage: currentPage,
+                                  //         cardsStore: _cardsStore,
+                                  //         controller: controller,
+                                  //       )
+                                  //     :
+                                  listStyle.isSelected
+                                      ? CardList()
+                                      : CardSlider(),
                             ],
                           ),
                         ),

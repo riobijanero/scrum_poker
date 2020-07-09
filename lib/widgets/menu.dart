@@ -15,45 +15,31 @@ class Menu extends StatefulWidget {
   _MenuState createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
-  // AnimationController _animationController;
-  // Animation<Offset> _menuSlideAnimation;
-  // Animation<double> _menuScaleAnimation;
+class _MenuState extends State<Menu> {
   CardsStore _cardsStore;
   double screenWidth, screenHeight;
-  static const double menuItemdistance = 20.0;
   MenuItem menutItemStandard;
   MenuItem menuItemFibonacci;
   MenuItem menutItemTshirt;
   List<MenuItem> menutItemList;
   @override
   void initState() {
-    menuItemFibonacci = MenuItem(menuItemTitle: 'Fibonacci', isSelected: true, menuItemicon: Icons.filter_3);
-    menutItemStandard = MenuItem(menuItemTitle: 'Standard', isSelected: false, menuItemicon: Icons.timer);
-    menutItemTshirt = MenuItem(menuItemTitle: 'T-shirt', isSelected: false, menuItemicon: Icons.landscape);
+    menuItemFibonacci = MenuItem(
+        menuItemTitle: 'Fibonacci',
+        isSelected: true,
+        menuItemicon: Icons.filter_3);
+    menutItemStandard = MenuItem(
+        menuItemTitle: 'Standard',
+        isSelected: false,
+        menuItemicon: Icons.timer);
+    menutItemTshirt = MenuItem(
+        menuItemTitle: 'T-shirt',
+        isSelected: false,
+        menuItemicon: Icons.landscape);
     menutItemList = [menutItemStandard, menuItemFibonacci, menutItemTshirt];
     super.initState();
   }
 
-  // @override
-  // void initState() {
-  //   _animationController = AnimationController(vsync: this, duration: menuAnimationDuration);
-  //   _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_animationController);
-
-  //   _menuSlideAnimation = Tween<Offset>(begin: Offset(-0.5, 0), end: Offset(0, 0)).animate(_animationController);
-  //   super.initState();
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
-  // @override
-  // void dispose() {
-  //   // _animationController.dispose();
-  //   super.dispose();
-  // }
   void onMenutItemRowPressed(MenuItem chosenMenuItem) {
     for (MenuItem menuItem in menutItemList) {
       setState(() {
@@ -72,11 +58,6 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
     screenWidth = size.width;
     _cardsStore = Provider.of<CardsStore>(context);
 
-    // if (_cardsStore.isMenuCollapsed) {
-    //   _animationController.forward();
-    // } else {
-    //   _animationController.reverse();
-    // }
     return Observer(
       builder: (_) => AnimatedPositioned(
         duration: menuAnimationDuration,
@@ -84,10 +65,12 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         bottom: 0,
         left: _cardsStore.isMenuCollapsed ? -0.5 * screenWidth : 0,
         right: 0,
-        child: SafeArea(
-          bottom: true,
-          child: Scaffold(
-            body: Padding(
+        child: Scaffold(
+          backgroundColor:
+              Provider.of<AppState>(context).isDarkMode ? Colors.black38 : null,
+          body: SafeArea(
+            bottom: true,
+            child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -121,11 +104,16 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Icon(Icons.brightness_3),
                       ),
-                      Text('Darkmode'),
+                      Text(
+                        'Darkmode',
+                        style: TextStyle(fontSize: 24),
+                      ),
                       Switch(
-                          value: Provider.of<AppState>(context, listen: false).isDarkMode,
+                          value: Provider.of<AppState>(context, listen: false)
+                              .isDarkMode,
                           onChanged: (boolValue) {
-                            Provider.of<AppState>(context, listen: false).toggleThemeMode();
+                            Provider.of<AppState>(context, listen: false)
+                                .toggleThemeMode();
                           }),
                     ],
                   ),
