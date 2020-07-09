@@ -23,10 +23,14 @@ class _SelectionButtonState extends State<SelectionButton> {
         duration: Duration(milliseconds: 500),
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         decoration: BoxDecoration(
-            color: widget.menuItem.isSelected ? Colors.blueAccent : Colors.transparent,
+            color: widget.menuItem.isSelected
+                ? Theme.of(context).accentColor
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(20.0)),
         child: Text(widget.menuItem.menuItemTitle,
-            style: TextStyle(color: widget.menuItem.isSelected ? Colors.white : null, fontSize: 14)),
+            style: TextStyle(
+                color: widget.menuItem.isSelected ? Colors.white : null,
+                fontSize: 16)),
       ),
     );
   }
