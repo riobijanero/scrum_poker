@@ -20,7 +20,8 @@ class CardGrid extends StatelessWidget {
     gridCardList = List.generate(
         cardsStore.estimationValueList.length,
         (int index) => GridCard(
-            key: ValueKey(cardsStore.estimationValueList[index].value.toString()),
+            key: ValueKey(
+                cardsStore.estimationValueList[index].value.toString()),
             estimationValue: cardsStore.estimationValueList[index]));
 
     return Padding(
@@ -32,15 +33,19 @@ class CardGrid extends StatelessWidget {
             .map(
               (gridCard) => GestureDetector(
                   key: ValueKey<String>(gridCard.estimationValue.value),
-                  child: Hero(tag: 'heroTag ${gridCard.estimationValue.value}', child: gridCard),
-                  onTap: () => _onGridCardPressed(context, gridCard.estimationValue)),
+                  child: Hero(
+                      tag: 'heroTag ${gridCard.estimationValue.value}',
+                      child: gridCard),
+                  onTap: () =>
+                      _onGridCardPressed(context, gridCard.estimationValue)),
             )
             .toList(),
       ),
     );
   }
 
-  void _onGridCardPressed(BuildContext context, EstimationValue scrumComplexity) {
+  void _onGridCardPressed(
+      BuildContext context, EstimationValue scrumComplexity) {
     cardsStore.selectComplexity(scrumComplexity);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return CardDetailScreen(scrumComplexity);
@@ -63,7 +68,9 @@ class GridCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor, // AppTheme.getRandomColor(),
         borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: [BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(2, 2))],
+        boxShadow: [
+          BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(2, 2))
+        ],
       ),
       margin: EdgeInsets.all(10),
       child: estimationValue.isImage
@@ -77,7 +84,7 @@ class GridCard extends StatelessWidget {
           : Center(
               child: Text(
               estimationValue.value,
-              style: Theme.of(context).textTheme.display2,
+              style: Theme.of(context).textTheme.headline3,
             )),
     );
 
