@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import '../widgets/menu_item_row.dart';
-import '../app_state.dart';
+import 'menu_item_row.dart';
+import '../../app_state.dart';
 
 import 'package:scrum_poker/stores/cards_store.dart';
 import 'package:provider/provider.dart';
 
-import '../models/menu_item.dart';
+import '../../models/menu_item.dart';
 
 const Duration menuAnimationDuration = const Duration(milliseconds: 350);
 

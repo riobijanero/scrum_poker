@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import './widgets/card_list/card_list.dart';
-import './widgets/card_slider/card_slider.dart';
-import './stores/cards_store.dart';
-import './widgets/card_grid.dart';
-import './widgets/menu.dart';
-import './models/menu_item.dart';
-import './widgets/selection_button.dart';
+
+import 'card_list/card_list.dart';
+import 'card_slider/card_slider.dart';
+import '../stores/cards_store.dart';
+import 'card_grid.dart';
+import '../models/menu_item.dart';
+import 'common/selection_button.dart';
 
 double screenWidth, screenHeight;
 const Duration dashboardDuration = const Duration(milliseconds: 350);
 const BorderRadius borderRadius = const BorderRadius.all(Radius.circular(40));
 const BorderRadius borderRadiusCards =
     const BorderRadius.all(Radius.circular(20));
-
-class MenuDashboard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Stack(
-        children: <Widget>[Menu(), CardsDeck()],
-      ),
-    );
-  }
-}
 
 class CardsDeck extends StatefulWidget {
   @override
@@ -109,8 +97,6 @@ class _CardsDeckState extends State<CardsDeck>
     setState(() {
       viewStyleIsChosen.isSelected = true;
     });
-
-    print(viewStyleList);
   }
 
   @override

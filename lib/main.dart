@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:scrum_poker/app_state.dart';
-import 'package:scrum_poker/app_theme.dart';
-
-import 'package:scrum_poker/menu_dashboard.dart';
 import 'package:provider/provider.dart';
+import 'package:scrum_poker/widgets/menu/menu.dart';
+
+import './app_state.dart';
+import './app_theme.dart';
+import 'widgets/carddeck.dart';
 import './stores/cards_store.dart';
 
 void main() => runApp(
@@ -30,10 +31,22 @@ class MyApp extends StatelessWidget {
             providers: [
               Provider<CardsStore>(create: (_) => CardsStore()),
             ],
-            child: MenuDashboard(),
+            child: MenuCardDeckStack(),
           ),
         );
       },
+    );
+  }
+}
+
+class MenuCardDeckStack extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: <Widget>[Menu(), CardsDeck()],
+      ),
     );
   }
 }
