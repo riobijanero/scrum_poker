@@ -1,6 +1,6 @@
 # Scrum Poker
 
-An app that can be used for estimating effort or complexity. The project is based on flutter and makes extensive use of the frameworks animated widgets.
+A Flutter app that can be used for estimating effort or complexity. The project is based on flutter and makes extensive use of the frameworks animated widgets.
 
 
 ## Core features
