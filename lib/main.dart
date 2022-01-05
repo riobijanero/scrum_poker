@@ -18,11 +18,11 @@ void main() => runApp(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Scrum Poker',
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
